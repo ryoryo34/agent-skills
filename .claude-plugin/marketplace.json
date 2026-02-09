@@ -1,0 +1,24 @@
+{
+  "name": "ryoryo-marketplace",
+  "owner": {
+    "name": "ryoryo34",
+    "email": "ryosei4email@gmail.com"
+  },
+  "metadata": {
+    "description": "A skills inventory for AI agents. This marketplace aggregates multiple Agent Skills for evaluation-driven development, conversation analysis, and more.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agent-skills",
+      "description": "A collection of AI agent skills for evaluation-driven development, plan clarification, and plan evaluation.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/suggest-skill",
+        "./skills/dig",
+        "./skills/eval-plan"
+      ]
+    }
+  ]
+}
