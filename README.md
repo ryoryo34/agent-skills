@@ -28,6 +28,40 @@ agent-skills/
         └── SKILL.md
 ```
 
+## Installation
+
+### 1. Marketplaceを追加
+
+```bash
+claude plugin marketplace add https://github.com/ryoryo34/agent-skills/
+```
+
+### 2. Pluginをインストール
+
+```bash
+claude plugin install agent-skills@ryoryo-marketplace
+```
+
+スコープを指定することもできるよ：
+
+```bash
+# ユーザースコープ（デフォルト）- 全プロジェクトで利用可能
+claude plugin install agent-skills@ryoryo-marketplace --scope user
+
+# プロジェクトスコープ - チームで共有（.claude/settings.json に記録）
+claude plugin install agent-skills@ryoryo-marketplace --scope project
+```
+
+### 3. インストール確認
+
+Claude Code内で `/plugin` を実行すると、**Installed** タブからインストール済みpluginを確認できる。
+
+### アンインストール
+
+```bash
+claude plugin uninstall agent-skills@ryoryo-marketplace
+```
+
 ## Adding a New Skill
 
 1. Create a new directory under `skills/`
