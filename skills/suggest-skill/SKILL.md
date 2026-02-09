@@ -19,6 +19,9 @@ Focus on the underlying causes (Why) rather than surface phenomena (What).
 | Repeatedly explained the same thing | Lacked domain knowledge or business rules |
 | Repeatedly discussed decisions | Didn't know the background of architectural decisions |
 | Made workflow mistakes | Didn't know project-specific procedures |
+| Repeatedly gave the same sequence of instructions | Claude lacked a defined process for this task |
+| Had to redo work after skipping steps | Didn't know prerequisites or quality gates |
+| Coordinated multi-step task incorrectly | Didn't know dependencies between steps |
 
 ## Analysis Process
 
@@ -31,6 +34,13 @@ Look for the following signals:
 - Places that required multiple exchanges
 - Places where Claude made incorrect assumptions
 
+Workflow-specific signals (process failures, not just knowledge gaps):
+
+- User repeatedly dictated the same sequence of steps across tasks
+- Claude skipped steps, did steps out of order, or missed prerequisites
+- Claude didn't perform expected validation, testing, or review steps
+- User had to explain dependencies between actions or tools
+
 ### Step 2: Analyze Root Causes (Why)
 
 For each stumbling point, ask:
@@ -39,12 +49,19 @@ For each stumbling point, ask:
    - Because it's project-specific knowledge
    - Because it's domain-specific rules
    - Because implicit conventions exist
+   - Because a defined process or procedure is missing
 
 2. **Could we have done it correctly from the start if we had this knowledge?**
    - Yes → Worth capturing
    - No → A different approach is needed
 
-3. **What is the nature of this knowledge?** (Type Discrimination)
+3. **Is this a process/workflow problem rather than a knowledge problem?**
+   - Did the failure come from missing steps, wrong order, or skipped gates? → Workflow issue
+   - Did the failure come from not knowing a fact, convention, or rule? → Knowledge issue
+   - Hint: If the fix is "define a procedure" → workflow. If the fix is "provide a fact" → knowledge
+   - Workflow issues point toward **Skills** (defined procedures) or **Agents** (autonomous executors)
+
+4. **What is the nature of this knowledge?** (Type Discrimination)
 
    Key question: **Does Claude need this knowledge in every session?**
    - YES + concise → **CLAUDE.md**
@@ -54,11 +71,11 @@ For each stumbling point, ask:
 
    See `references/patterns.md` > "Output Type Discrimination" for the full decision tree and signals table.
 
-4. **Can existing CLAUDE.md/agents/skills handle this?**
+5. **Can existing CLAUDE.md/agents/skills handle this?**
    - Yes → Propose updating existing artifacts
    - No → Propose creating a new artifact
 
-5. **Would this knowledge be useful in other contexts?**
+6. **Would this knowledge be useful in other contexts?**
    - Yes → Valuable as a general-purpose artifact
    - No → A one-time fix is sufficient
 

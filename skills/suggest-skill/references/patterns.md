@@ -56,19 +56,35 @@ A catalog of root cause patterns for detecting improvement candidates from conve
 
 ### 4. Insufficient Understanding of Workflows / Procedures
 
-**Typical Stumbling Points**:
-- Skipped steps in the process
-- Proceeded without meeting prerequisites
-- Didn't know project-specific workflows
+**Sub-pattern A: Missing Process Definition**
+- User repeatedly dictated the same sequence of steps
+- Claude performed a task ad hoc when a defined procedure exists
 
-**Why**: Claude doesn't know project-specific procedures or dependencies
+**Sub-pattern B: Sequencing and Dependency Errors**
+- Did steps out of order or missed prerequisites
+- Didn't know which tasks block other tasks
+- Proceeded to a later step before an earlier step's output was ready
+
+**Sub-pattern C: Missing Quality Gates**
+- Skipped validation, testing, or review steps
+- Didn't check preconditions before destructive or irreversible actions
+- Didn't know when to stop and ask for approval
+
+**Why**: Claude doesn't know project-specific procedures, step dependencies, or quality gates. The fix is a defined process, not a knowledge fact.
+
+**Key distinction from knowledge gaps**: If the root cause is "Claude didn't know X" the fix is knowledge. If the root cause is "Claude didn't follow process Y" the fix is a workflow definition. A workflow may *contain* knowledge, but the primary artifact is a procedure.
 
 **Output Type Guidance**:
 - **CLAUDE.md**: Simple procedural reminders ("always run tests before committing")
+  - → 1-2行で済むルールのみ。常にコンテキストを消費するため簡潔に
 - **Skill** (most common): Multi-step workflows with user interaction
   - Example: deployment workflow, PR review procedure, release process
-  - → Task content。ユーザーが /deploy 等で呼び出す
-- **Agent**: Autonomous workflow executor (e.g., CI pipeline agent)
+  - Example: multi-tool coordination (lint → test → build → deploy)
+  - → Task content。ユーザーが /deploy, /release 等で呼び出す
+- **Skill** (`user-invocable: false`): Process knowledge Claude auto-loads when relevant
+  - Example: "when modifying DB schema, always check migration compatibility first"
+  - → 関連時に自動読み込み。ユーザー呼び出し不要
+- **Agent**: Autonomous workflow executor (e.g., CI pipeline agent, review agent)
   - → 独立コンテキストで自律実行。ユーザー介入不要な場合
 
 ### 5. Lack of Architectural Decision Context
@@ -113,6 +129,8 @@ A catalog of root cause patterns for detecting improvement candidates from conve
 | Recurring | Same stumbling point occurred 2+ times |
 | Solvable with knowledge | Problem wouldn't have occurred if known beforehand |
 | Stable knowledge | Knowledge that doesn't change frequently |
+| Stable process | The workflow hasn't changed recently and isn't likely to change soon |
+| Multi-step with dependencies | Process has 3+ steps with ordering constraints or prerequisites |
 
 ### When Not to Capture
 
@@ -122,6 +140,7 @@ A catalog of root cause patterns for detecting improvement candidates from conve
 | Frequently changing information | High maintenance cost |
 | Claude's general knowledge | Something Claude already knows |
 | Context-dependent judgment | Requires different judgment each time |
+| Rapidly evolving process | Workflow changes frequently; captured version becomes stale quickly |
 
 ## Output Type Discrimination
 
@@ -176,6 +195,9 @@ Root cause identified
 | Autonomous review/checking/enforcement | Agent | 独立コンテキストで自律実行 |
 | Tasks needing restricted tool access | Agent | ツール制限で安全性確保 |
 | Complex orchestration without user involvement | Agent | 独立した長時間タスク |
+| User dictated same steps 2+ times | Skill (task) | 繰り返し手順 → 呼び出し可能なプロシージャへ |
+| Steps skipped or done out of order | Skill (task) or CLAUDE.md | ゲート付き手順 → Skill; 単純リマインダー → CLAUDE.md |
+| Multi-tool coordination needed | Skill (task) or Agent | 対話的調整 → Skill; 自律実行 → Agent |
 | Convention + enforcement workflow together | Layered | 知識(CLAUDE.md) + 手順(Skill/Agent) |
 
 ## Analysis Checklist
@@ -192,3 +214,6 @@ Checklist for analyzing conversations:
 - [ ] What type of artifact best captures this knowledge? (Apply decision tree)
 - [ ] Is the type assignment correct? (Apply simplicity principle)
 - [ ] Does this need a layered proposal (multiple types)?
+- [ ] Is this a process/workflow problem or a knowledge problem?
+- [ ] If workflow: are the steps stable enough to capture?
+- [ ] If workflow: does it have dependencies, prerequisites, or quality gates?
