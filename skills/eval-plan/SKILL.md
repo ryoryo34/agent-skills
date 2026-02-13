@@ -115,86 +115,51 @@ Checkpoints:
 
 Use the following format. Replace placeholders with actual evaluation results.
 
-#### Score Display Rules
+#### Display Rules
 
 - **Progress bar**: Use `█` for filled and `░` for empty, always 20 characters wide. Fill count = score for per-criterion bars (out of 20). For total bar, fill count = round(score / 5).
-- **Verdict icons**: `+++` (18-20), `++` (13-17), `+` (7-12), `-` (0-6)
 - **Grade thresholds**: A (90-100), B (75-89), C (60-74), D (below 60)
-- **Grade label**: A = "Ready to implement", B = "Minor revisions recommended", C = "Significant revisions needed", D = "Major rework required - revisit requirements"
+- **Grade label**: A = "Ready to implement", B = "Minor revisions needed", C = "Significant gaps", D = "Rework required"
+- **Severity markers**: 🔴 = blocks implementation, 🟡 = should fix before/during implementation, 💡 = nice-to-have improvement
+- **Grouping**: Must Fix = all 🔴 + blocking 🟡 (can't start implementing without fixing, e.g. API contract undefined → can't write client code). Should Fix = non-blocking 🟡 + all 💡 (can fix during implementation, e.g. variable naming inconsistent). Omit a group header if it has zero items. If no issues exist at all, omit the entire "Next Actions" section and the "After all fixes" line.
+- **Sort order**: Within each group, sort by expected gain descending (+pts highest first)
+- **Action description**: 1-2 sentences max. If an issue needs 3+ sentences to describe, split it into separate action items. Do NOT expand back to multi-field format (Priority/Location/Current state/Recommended fix/Impact). The inline tags + 1-2 sentence format is mandatory.
+- **Effort**: S (< 5 min), M (5-30 min), L (30+ min)
 
 ```markdown
-# Plan Evaluation Report
+# Plan Evaluation: [X] / 100 — Grade [A/B/C/D]
 
-## Score: [X] / 100
+> [One-sentence summary of overall readiness and the single biggest gap. If score < 75, append: "→ Consider running `/dig` to resolve issues before implementation."]
 
-Total  [====================] [X]/100  Grade: [A/B/C/D] - [Grade label]
+| Criterion      | Score  | Bar                    |
+|----------------|--------|------------------------|
+| Completeness   | [X]/20 | [████████████████░░░░] |
+| Consistency    | [X]/20 | [████████████████░░░░] |
+| Feasibility    | [X]/20 | [████████████████░░░░] |
+| Specificity    | [X]/20 | [████████████████░░░░] |
+| Risk Awareness | [X]/20 | [████████████████░░░░] |
 
-| Criterion      | Score | Bar                  | Verdict |
-|----------------|-------|----------------------|---------|
-| Completeness   | [X]/20 | [████████████████░░░░] | [+++/++/+/-] |
-| Consistency    | [X]/20 | [████████████████░░░░] | [+++/++/+/-] |
-| Feasibility    | [X]/20 | [████████████████░░░░] | [+++/++/+/-] |
-| Specificity    | [X]/20 | [████████████████░░░░] | [+++/++/+/-] |
-| Risk Awareness | [X]/20 | [████████████████░░░░] | [+++/++/+/-] |
+## Next Actions
 
-## Issues Found
+### Must Fix
 
-List all issues grouped by severity. Each issue MUST include all five fields below.
+- 🔴 **[Issue title]** `[Criterion]` `Effort: [S/M/L]` `+[N]pts`
+  [Location in plan] — [What to change and why, in 1-2 sentences]
 
-### Priority Guide
+- 🟡 **[Issue title]** `[Criterion]` `Effort: [S/M/L]` `+[N]pts`
+  [Location in plan] — [What to change and why, in 1-2 sentences]
 
-- **Severity** = how bad the problem is (Critical > Warning > Suggestion)
-- **Priority** = what to fix first, considering impact and effort combined
-  - `P0` — Fix immediately (blocks progress or high impact + low effort)
-  - `P1` — Fix before implementation (important but not blocking)
-  - `P2` — Fix when convenient (nice to have, low urgency)
+### Should Fix
 
-Assign priority independently of severity. A Warning can be P0 if it's a quick win with high impact. A Critical can be P1 if it requires extensive research first.
+- 🟡 **[Issue title]** `[Criterion]` `Effort: [S/M/L]` `+[N]pts`
+  [Location in plan] — [What to change and why, in 1-2 sentences]
 
-### Critical (blocks implementation)
+- 💡 **[Issue title]** `[Criterion]` `Effort: [S/M/L]` `+[N]pts`
+  [Location in plan] — [What to change and why, in 1-2 sentences]
 
-**[Issue title]**
-- **Priority**: [P0/P1/P2]
-- **Location**: [Which section/step of the plan has this problem]
-- **Current state**: [What the plan currently says or is missing]
-- **Recommended fix**: [Concrete description of what to write or change]
-- **Impact**: [What goes wrong if this is not fixed]
+---
 
-### Warning (should fix before implementation)
-
-**[Issue title]**
-- **Priority**: [P0/P1/P2]
-- **Location**: [Which section/step of the plan has this problem]
-- **Current state**: [What the plan currently says or is missing]
-- **Recommended fix**: [Concrete description of what to write or change]
-- **Impact**: [What goes wrong if this is not fixed]
-
-### Suggestion (nice to have)
-
-**[Issue title]**
-- **Priority**: [P0/P1/P2]
-- **Location**: [Which section/step of the plan has this problem]
-- **Current state**: [What the plan currently says or is missing]
-- **Recommended fix**: [Concrete description of what to write or change]
-- **Impact**: [What goes wrong if this is not fixed]
-
-## Improvement Roadmap
-
-Prioritize actions by priority label first, then by expected score gain within same priority. Sum the gains to project the target score.
-
-Current: [X] / 100 → Target: [Y] / 100 (estimated)
-
-| # | Priority | Action | Affects | Effort | Expected Gain |
-|---|----------|--------|---------|--------|---------------|
-| 1 | [P0/P1/P2] | [Specific action to improve the plan] | [Criterion name] | [S/M/L] | +[N] |
-| 2 | [P0/P1/P2] | [Specific action to improve the plan] | [Criterion name] | [S/M/L] | +[N] |
-| 3 | [P0/P1/P2] | [Specific action to improve the plan] | [Criterion name] | [S/M/L] | +[N] |
-
-Effort: S = small (< 5 min), M = medium (5-30 min), L = large (30+ min)
-
-Quick wins (P0 + Effort S): [List any actions that are both high priority and low effort]
-
-After improvements: **[Y] / 100** (Grade: [New grade] → [New grade label])
+After all fixes: **[Y]/100** (Grade [current] → [target])
 ```
 
 ## Important Notes
