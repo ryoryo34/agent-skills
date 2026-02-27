@@ -83,6 +83,7 @@ Severity is assigned per finding, not per section. Use the context and impact of
 - [ ] Consistent with project linter/formatter configuration
 - [ ] Adheres to project style guide and coding conventions
 - [ ] No deprecated APIs or patterns in use
+- [ ] No known anti-patterns detected (see `anti-patterns.md` catalog for reference)
 
 ## 9. Readability
 

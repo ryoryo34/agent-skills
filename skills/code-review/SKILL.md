@@ -34,7 +34,8 @@ Output:
 Apply 9 criteria in priority order against the diff.
 
 1. Read `references/review-criteria.md` for the full checklist
-2. For each changed file:
+2. Read `references/anti-patterns.md` for common anti-pattern signatures
+3. For each changed file:
    a. Read the file with surrounding context (not just the diff lines)
    b. Apply criteria 1-9 sequentially
    c. For each detected issue, record:
@@ -56,6 +57,7 @@ Apply 9 criteria in priority order against the diff.
 - Do NOT flag issues in unchanged code (only review the diff)
 - Do NOT flag style issues that a linter/formatter should catch (delegate to tooling)
 - DO consider context around changed lines (callers, related functions)
+- DO cross-reference against `references/anti-patterns.md` when applying each criterion
 - If a criterion has no issues, skip it silently (do not output "no issues found")
 
 ## Phase 3: Report
