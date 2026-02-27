@@ -17,7 +17,8 @@
       "skills": [
         "./skills/suggest-skill",
         "./skills/dig",
-        "./skills/eval-plan"
+        "./skills/eval-plan",
+        "./skills/code-review"
       ]
     }
   ]
