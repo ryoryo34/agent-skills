@@ -10,6 +10,8 @@
 | Should Fix | 🟡 | Degrades quality — poor error handling, performance issue, design smell | Strongly recommended |
 | Nit | 💡 | Improvement suggestion — naming, style, minor readability | Optional |
 
+Severity is assigned per finding, not per section. Use the context and impact of the change to determine the appropriate level.
+
 ## 1. Spec-Code Alignment
 
 - [ ] Implementation matches the PR description / linked issue / user story
@@ -53,6 +55,8 @@
 
 - [ ] Single Responsibility: each function/class has one reason to change
 - [ ] Open/Closed: extensible without modifying existing code
+- [ ] Liskov Substitution: subtypes are substitutable for their base types without breaking behavior
+- [ ] Interface Segregation: no client is forced to depend on methods it does not use
 - [ ] Dependency Inversion: depends on abstractions, not concretions
 - [ ] Dependency direction is correct (high-level does not depend on low-level)
 - [ ] Abstraction level is appropriate (not too high, not too low)
