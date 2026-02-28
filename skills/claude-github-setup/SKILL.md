@@ -1,6 +1,6 @@
 ---
 name: claude-github-setup
-description: Claude Code Action を使った GitHub 自動化（PR自動レビュー、Issue自動実装、レビュー指摘の自動修正）を対話的にセットアップする。Triggers include "claude-github-setup", "setup claude github", "Claude GitHub 自動化", "PRレビュー自動化", "claude-code-action setup".
+description: Claude Code Action を使った GitHub 自動化（PR自動レビュー、Issue自動実装）を対話的にセットアップする。Triggers include "claude-github-setup", "setup claude github", "Claude GitHub 自動化", "PRレビュー自動化", "claude-code-action setup".
 allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion
 context: fork
 ---
@@ -70,14 +70,8 @@ AskUserQuestion（multiSelect: true）でセットアップするモジュール
 |---|-----------|------|
 | 1 | **claude.yml** | Issue/PR で `@claude` メンション対応 & `claude-task` ラベルで自動実装 |
 | 2 | **claude-code-review.yml** | PR 作成時に Claude が自動レビュー（レビュー基準は Phase 3 でカスタマイズ） |
-| 3 | **auto-fix.yml** | Claude レビューの 🔴必須修正 / 🟡推奨 を自動修正（#2 が前提） |
-| 4 | **Issue Templates** | Bug Report / Feature Request / Claude Task の3テンプレート |
-| 5 | **PR Template** | Pull Request テンプレート |
-
-### 依存関係チェック
-
-- auto-fix.yml（#3）が選ばれて claude-code-review.yml（#2）が選ばれていない場合:
-  - 「auto-fix は Claude Code Review の結果を元に動作するため、claude-code-review.yml も必要です。追加しますか？」と確認
+| 3 | **Issue Templates** | Bug Report / Feature Request / Claude Task の3テンプレート |
+| 4 | **PR Template** | Pull Request テンプレート |
 
 ---
 
@@ -197,7 +191,6 @@ AskUserQuestion で追加のレビュー観点をユーザーに聞く:
 |---------------------------|----------|
 | `workflows/claude.yml` | `.github/workflows/claude.yml` |
 | `workflows/claude-code-review.yml` | `.github/workflows/claude-code-review.yml` |
-| `workflows/auto-fix.yml` | `.github/workflows/auto-fix.yml` |
 | `issue-templates/bug.yml` | `.github/ISSUE_TEMPLATE/bug.yml` |
 | `issue-templates/feature.yml` | `.github/ISSUE_TEMPLATE/feature.yml` |
 | `issue-templates/task.yml` | `.github/ISSUE_TEMPLATE/task.yml` |
@@ -225,7 +218,6 @@ AskUserQuestion で追加のレビュー観点をユーザーに聞く:
 以下のファイルを作成しました:
 - `.github/workflows/claude.yml` ✅
 - `.github/workflows/claude-code-review.yml` ✅
-- `.github/workflows/auto-fix.yml` ✅
 - `.github/ISSUE_TEMPLATE/bug.yml` ✅
 - `.github/ISSUE_TEMPLATE/feature.yml` ✅
 - `.github/ISSUE_TEMPLATE/task.yml` ✅
@@ -283,7 +275,6 @@ claude.yml を選択した場合は以下も追加:
 1. **@claude メンション**: Issue や PR コメントで `@claude こんにちは` と投稿 → Claude が反応するか
 2. **claude-task ラベル**: Issue に `claude-task` ラベルを付与 → Claude が Issue 内容を実行するか
 3. **PR 自動レビュー**: PR を作成 → Claude がレビューコメントを投稿するか
-4. **自動修正**: レビュー指摘後 → 自動修正 workflow が実行されるか
 
 問題がある場合は GitHub Actions のログ（Actions タブ）を確認してください。
 ```
@@ -294,5 +285,4 @@ claude.yml を選択した場合は以下も追加:
 
 - このスキルは **Claude Code Action（anthropics/claude-code-action）専用**
 - レビュープロンプトのベース基準は `skills/code-review/references/review-criteria.md` に依存（ファイルがない場合はデフォルト基準を使用）
-- auto-fix.yml は claude-code-review.yml の workflow 名 `"Claude Code Review"` に依存。レビュー workflow 名を変更した場合は auto-fix.yml の `workflows:` も更新すること
 - テンプレートの中身を更新する場合は `references/` 配下のファイルを直接編集すること
