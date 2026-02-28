@@ -1,0 +1,106 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.type != 'Bot'
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            EVENT ACTION: ${{ github.event.action }}
+
+            このPRを日本語でレビューしてください。
+
+            ## レビュールール
+
+            1. まず `gh pr diff` で変更ファイルのパスを確認し、関連するセクションのみチェックすること
+            2. 問題が見つかった項目だけ報告すること（問題のない項目は報告しない）
+            3. 各指摘には重要度を付与すること：
+               - 🔴 **必須修正**: バグ、セキュリティリスク、データ損失の可能性
+               - 🟡 **推奨**: コード品質・パフォーマンス・保守性の改善
+               - 🟢 **提案**: より良い書き方やスタイルの提案
+            4. 問題が見つからなかった場合は「レビュー完了：特に問題は見つかりませんでした 👍」とだけコメントすること
+
+            ## チェック観点（ベース基準）
+
+            {{BASE_REVIEW_CRITERIA}}
+
+            {{PROJECT_SPECIFIC_CHECKS}}
+
+            ## 再レビュー時のスレッド解決（EVENT ACTION が `synchronize` の場合のみ）
+
+            EVENT ACTION が `synchronize` の場合、通常のレビューに加えて以下を実行すること：
+
+            1. GraphQL で PR の未解決レビュースレッドを取得する
+               ```
+               gh api graphql -f query='
+                 query($owner: String!, $repo: String!, $number: Int!) {
+                   repository(owner: $owner, name: $repo) {
+                     pullRequest(number: $number) {
+                       reviewThreads(first: 100) {
+                         nodes {
+                           id
+                           isResolved
+                           comments(first: 1) {
+                             nodes {
+                               author { login }
+                               body
+                               path
+                               line
+                             }
+                           }
+                         }
+                       }
+                     }
+                   }
+                 }' -f owner=OWNER -f repo=REPO -F number=PR_NUMBER
+               ```
+
+            2. `claude[bot]` が投稿した未解決スレッドのみを対象とする（人間のレビューは触らない）
+
+            3. 各スレッドの `path` と `line` を参照し、現在のコードと比較して指摘が解消されたか判断する
+
+            4. 解消済みスレッドを GraphQL mutation で Resolve する
+               ```
+               gh api graphql -f query='
+                 mutation($threadId: ID!) {
+                   resolveReviewThread(input: {threadId: $threadId}) {
+                     thread { id isResolved }
+                   }
+                 }' -f threadId=THREAD_ID
+               ```
+
+            5. 通常レビュー結果と統合し、解決済みスレッドと未解決スレッドを明記する。レポートは `gh pr comment` で投稿する
+
+            EVENT ACTION が `opened` や `reopened` の場合はこのセクションをスキップすること。
+
+            ## レビュー方法
+            - PRブランチは作業ディレクトリにチェックアウト済み
+            - トップレベルのフィードバックは `gh pr comment` を使用
+            - コード行ごとの指摘は `gh api` で inline comment を作成
+            - GitHub コメントのみ投稿し、メッセージとしては返さないこと
+
+          claude_args: |
+            --allowedTools "Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*)"

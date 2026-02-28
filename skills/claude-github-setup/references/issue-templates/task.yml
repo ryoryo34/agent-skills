@@ -1,0 +1,16 @@
+name: Claude Task
+description: Claude に直接実行させるタスク
+labels: ["claude-task"]
+body:
+  - type: textarea
+    id: task
+    attributes:
+      label: タスク内容
+      description: Claude に実行してほしいタスクを具体的に記述してください
+    validations:
+      required: true
+  - type: textarea
+    id: related-files
+    attributes:
+      label: 関連ファイル
+      description: 変更対象のファイルやディレクトリがあれば記載
