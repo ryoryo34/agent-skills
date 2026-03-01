@@ -17,6 +17,7 @@ During Phase 2 (Scan), check changed code against relevant anti-patterns. If a p
 | D3 | Feature Envy | Method uses more data/methods from another class than its own | 5. SOLID | 💡 Nit |
 | D4 | Premature Generalization | Abstract base/interface created for a single concrete use | 6. YAGNI | 🟡 Should Fix |
 | D5 | Speculative Feature | Code added for "future requirements" that don't exist yet | 6. YAGNI | 🟡 Should Fix |
+| D8 | Backward-Compat Shim | Aliases, wrapper functions, or dead-code stubs kept solely for backward compatibility without operational justification (e.g., in-flight DB migration, explicit non-functional requirement) | 6. YAGNI | 🟡 Should Fix |
 | D6 | Wrong Abstraction Unit | Abstraction boundary doesn't match the domain concept it represents | 5. SOLID | 🟡 Should Fix |
 | D7 | Circular Dependency | Module A depends on B, B depends on A (directly or transitively) | 5. SOLID | 🔴 Must Fix |
 
@@ -93,7 +94,7 @@ These patterns were extracted from recurring architectural decision discussions 
 | 3. RASIS | E1, E2, E3, E4, E5, E6, T3, X1 |
 | 4. Cost Efficiency | P1, P2, P3, P4, X2 |
 | 5. SOLID | D1, D2, D3, D6, D7, I5 |
-| 6. YAGNI | D4, D5 |
+| 6. YAGNI | D4, D5, D8 |
 | 7. DRY | I1, I2 |
 | 8. Best Practices | T2 |
 | 9. Readability | I3, I4, I6 |
