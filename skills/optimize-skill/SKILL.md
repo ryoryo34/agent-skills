@@ -1,7 +1,7 @@
 ---
 name: optimize-skill
 description: Skillを自動最適化する。テキスト勾配アプローチで正解データとの差分を分析し、Skillを自動改訂するループを実行する。Triggers include "optimize-skill", "スキル最適化", "skill optimization".
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, AskUserQuestion, Skill
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, AskUserQuestion
 context: fork
 ---
 
@@ -58,9 +58,10 @@ AskUserQuestion でデータセットのディレクトリパスを入力させ�
 サブエージェントへのプロンプト構成:
 1. `references/prompts/generate.md` のテンプレートを読み込む
 2. `{{SKILL_NAME}}` を対象スキル名に置換
-3. `{{PROMPT}}` を該当データセットの `prompt.md` の内容に置換
-4. `{{CONTEXT_DIR}}` を該当データセットの `context/` パスに置換（存在しない場合はデータセットディレクトリ自体）
-5. `{{OUTPUT_PATH}}` を `.optimize-history/iteration-0/XX-output.md` に置換
+3. `{{SKILL_CONTENT}}` を対象スキルの SKILL.md の全文に置換
+4. `{{PROMPT}}` を該当データセットの `prompt.md` の内容に置換
+5. `{{CONTEXT_DIR}}` を該当データセットの `context/` パスに置換（存在しない場合はデータセットディレクトリ自体）
+6. `{{OUTPUT_PATH}}` を `.optimize-history/iteration-0/XX-output.md` に置換
 
 **重要**: サブエージェントには expected.md のパスを渡さない。
 
