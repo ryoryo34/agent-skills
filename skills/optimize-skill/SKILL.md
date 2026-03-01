@@ -1,13 +1,13 @@
 ---
 name: optimize-skill
-description: Skillを自動最適化する。テキスト勾配アプローチで正解データとの差分を分析し、Skillを自動改訂するループを実行する。Triggers include "optimize-skill", "スキル最適化", "skill optimization".
+description: Skillを自動最適化する。正解データとの差分を分析し、Skillを自動改訂するループを実行する。Triggers include "optimize-skill", "スキル最適化", "skill optimization".
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, AskUserQuestion
 context: fork
 ---
 
 # Skill自動最適化（optimize-skill）
 
-ProTeGi/APO のテキスト勾配アプローチを Claude Code Skills に適用し、正解データとの差分比較によるイテレーティブな自動改善ループを実行する。
+正解データとの差分比較によるイテレーティブな自動改善ループを実行する。
 
 ## 処理概要
 
@@ -138,5 +138,5 @@ scores.json を読み込み、前回イテレーションと比較:
 
 1. **生成時に正解を参照しない**: Skill の改善が出力品質向上として純粋に現れるようにする
 2. **複数データセットで評価**: 単一案件への過適合を防ぐ
-3. **テキスト勾配は「何が違うか」+「なぜ違うか」**: 表面的な差分ではなく根本原因を分析
-4. **改訂は勾配のみで行う**: expected.md を直接見て Skill を書くのではなく、テキスト勾配の改善提案に基づいて改訂
+3. **差分分析は「何が違うか」+「なぜ違うか」**: 表面的な差分ではなく根本原因を分析
+4. **改訂は差分分析のみで行う**: expected.md を直接見て Skill を書くのではなく、差分分析の改善提案に基づいて改訂
