@@ -69,7 +69,8 @@ Severity is assigned per finding, not per section. Use the context and impact of
 - [ ] No code for hypothetical future requirements
 - [ ] No unused imports, variables, or functions
 - [ ] No premature abstraction (helper/utility for one-time use)
-- [ ] No backward-compatibility shims, aliases, or dead-code preservations added speculatively — backward compat is justified only when operational constraints make removal/migration impossible (e.g., live DB schema that cannot be migrated), or non-functional/operational requirements explicitly mandate it
+- [ ] No backward-compatibility shims, aliases, or dead-code preservations added speculatively
+  - Justified only when: operational constraints make removal/migration impossible (e.g., live DB schema), or non-functional/operational requirements explicitly mandate it
 
 ## 7. DRY
 
