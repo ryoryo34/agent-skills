@@ -18,8 +18,7 @@
         "./skills/suggest-skill",
         "./skills/dig",
         "./skills/eval-plan",
-        "./skills/code-review",
-        "./skills/optimize-skill"
+        "./skills/code-review"
       ]
     }
   ]
