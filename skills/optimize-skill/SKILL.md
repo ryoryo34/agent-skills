@@ -25,7 +25,7 @@ Phase 4: レポート出力（自動）
 AskUserQuestion でインストール済みスキルの一覧を表示し、最適化対象を選ばせる。
 
 スキル一覧は以下で取得:
-- Glob で `skills/*/SKILL.md` と `~/.claude/skills/*/SKILL.md` を検索
+- Glob で `skills/*/SKILL.md`、`~/.claude/skills/*/SKILL.md`、`~/.claude/plugins/**/SKILL.md` を検索
 - 各 SKILL.md のフロントマターから name と description を抽出
 
 ### Step 2: データセットディレクトリの指定
@@ -102,7 +102,7 @@ scores.json を読み込み、前回イテレーションと比較:
 
 ### Step D: Skill 改訂
 
-現在の SKILL.md を `.optimize-history/iteration-N/skill-snapshot.md` にコピーする。
+**改訂前に必ず**現在の SKILL.md を `.optimize-history/iteration-N/skill-snapshot.md` にコピーする。このスナップショットは退行検出時のロールバック先となるため、改訂エージェント起動前に保存を完了すること。
 
 改訂サブエージェント（Agent ツール、subagent_type: general-purpose）を起動:
 1. `references/prompts/revise.md` のテンプレートを読み込む
