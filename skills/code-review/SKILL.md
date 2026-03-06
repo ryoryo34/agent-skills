@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: 9-criteria checklist-driven code review. Evaluates spec alignment (incl. test quality based on t-wada/mizchi principles), security, RASIS, cost, SOLID, YAGNI, DRY, best practices, readability. Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code".
+description: 9-criteria checklist-driven code review. Evaluates spec alignment, security, RASIS, cost, SOLID, YAGNI, DRY, best practices, readability. Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code".
 allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
 context: fork
 ---
