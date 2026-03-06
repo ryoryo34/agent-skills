@@ -17,9 +17,39 @@ Severity is assigned per finding, not per section. Use the context and impact of
 - [ ] Implementation matches the PR description / linked issue / user story
 - [ ] Edge cases are handled (null, empty, zero, negative, max values, off-by-one)
 - [ ] Alternative flows and failure scenarios are considered
-- [ ] Related tests are added or updated for the change
+- [ ] Related tests are added or updated for the change (see Test Quality below)
 - [ ] Related documentation (API spec, README, etc.) is updated
 - [ ] No unintended side effects on existing behavior
+
+### Test Quality (t-wada / mizchi principles)
+
+Tests must provide **根拠のある自信 (evidence-based confidence)** — tests pass → safe to deploy; tests fail → fix before proceeding. Tests exist to enable change, not to prevent it.
+
+#### Trustworthiness — eliminate "lies" in tests
+
+- [ ] No false negatives: tests actually catch bugs they claim to guard against (no self-fulfilling tests where test logic mirrors production logic)
+- [ ] No false positives (flaky tests): tests do not fail when code is correct (no timing dependencies, no external service calls without fakes, no global state leakage)
+- [ ] Skipped/disabled tests (`skip`, `xit`, `pending`) have a tracked issue or expiration — not left indefinitely
+
+#### What to test — behavior, not implementation
+
+- [ ] Tests verify **observable behavior** (inputs → outputs, side effects, state changes), not internal implementation details (private methods, internal data structures, call order)
+- [ ] Tests survive refactoring: renaming internals or restructuring code should not break tests if behavior is unchanged
+- [ ] Assertions are **diagnostic**: on failure, the actual vs expected values reveal the root cause (use `assertEqual(result, 40)` not `assertTrue(result == 40)`)
+
+#### Test structure — size and isolation
+
+- [ ] Test size is appropriate: prefer Small tests (single process, no I/O) over Medium/Large where possible
+- [ ] Test doubles (mocks/stubs) are used strategically, not excessively — each mock increases structural coupling between test and implementation
+- [ ] When mocking is needed, prefer fakes (real implementations with in-memory backing) over mocks (behavior verification) to reduce false confidence
+- [ ] Pure logic is extracted and tested without mocks; I/O boundaries are tested with integration tests
+
+#### Coverage and edge cases
+
+- [ ] Critical paths and business logic have test coverage
+- [ ] Edge cases are tested: null, empty, zero, negative, boundary values, off-by-one, NaN/Infinity
+- [ ] Error paths are tested: what happens when dependencies fail?
+- [ ] Bug fixes include a regression test that reproduces the bug before the fix
 
 ## 2. Security
 

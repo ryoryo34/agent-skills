@@ -67,12 +67,32 @@ During Phase 2 (Scan), check changed code against relevant anti-patterns. If a p
 
 ## 6. Testing Anti-Patterns
 
+### 6a. Test Trustworthiness (false negatives — bugs exist but tests pass)
+
 | # | Name | What It Looks Like | Criterion | Default Severity |
 |---|------|--------------------|-----------|-----------------|
 | T1 | Test Without Assertion | Test that runs code but doesn't verify behavior | 1. Spec-Code Alignment | 🟡 Should Fix |
-| T2 | Testing Implementation Details | Tests coupled to internal structure rather than observable behavior | 8. Best Practices | 💡 Nit |
-| T3 | Flaky Test Patterns | Tests depending on timing, external services, or global state | 3. RASIS | 🟡 Should Fix |
-| T4 | Missing Edge Case Tests | Happy path tested but null/empty/boundary values not covered | 1. Spec-Code Alignment | 🟡 Should Fix |
+| T5 | Self-Fulfilling Test | Test logic mirrors production logic instead of independently specifying expected results (e.g., both test and production code compute tax with the same formula — if the formula is wrong, both agree) | 1. Spec-Code Alignment | 🔴 Must Fix |
+| T6 | Permanently Skipped Test | Tests disabled with `skip` / `xit` / `pending` / commented-out without a tracked issue or expiration date | 1. Spec-Code Alignment | 🟡 Should Fix |
+| T4 | Missing Edge Case Tests | Happy path tested but null/empty/boundary values/NaN/Infinity not covered | 1. Spec-Code Alignment | 🟡 Should Fix |
+| T10 | Bug Fix Without Regression Test | Bug is fixed but no test reproduces the original failure to prevent recurrence | 1. Spec-Code Alignment | 🟡 Should Fix |
+
+### 6b. Test Trustworthiness (false positives — tests fail but code is correct)
+
+| # | Name | What It Looks Like | Criterion | Default Severity |
+|---|------|--------------------|-----------|-----------------|
+| T3 | Flaky Test Patterns | Tests depending on timing (`sleep`, `setTimeout` assertions), external services, or shared global state | 3. RASIS | 🟡 Should Fix |
+| T2 | Testing Implementation Details | Tests coupled to internal structure (private methods, internal data structures, call order) rather than observable behavior — breaks on refactoring even when behavior is unchanged | 1. Spec-Code Alignment | 🟡 Should Fix |
+| T7 | Over-Mocking | Excessive use of mocks/stubs that couples tests to implementation structure; refactoring internals breaks tests despite unchanged behavior. Prefer: extract pure logic and test without mocks; use fakes (in-memory implementations) over mocks at I/O boundaries | 1. Spec-Code Alignment | 🟡 Should Fix |
+
+### 6c. Test Quality
+
+| # | Name | What It Looks Like | Criterion | Default Severity |
+|---|------|--------------------|-----------|-----------------|
+| T8 | Non-Diagnostic Assertion | Assertions that hide failure cause: `assertTrue(result == 40)` fails with just `false`; use `assertEqual(result, 40)` to reveal `expected 40, got 39` | 9. Readability | 💡 Nit |
+| T9 | Wrong Test Size | Test classified as "unit" but performs network/DB/filesystem I/O (should be Small: single process, no I/O). Prefer downsizing via fakes (e.g., in-memory DB) rather than mocks | 4. Cost Efficiency | 🟡 Should Fix |
+| T11 | Test-Implementation Structural Coupling | Test mirrors the internal structure of production code (one test class per production class, test methods map 1:1 to private methods) instead of testing behavioral contracts | 8. Best Practices | 💡 Nit |
+| T12 | Shared Mutable Test State | Tests share mutable state (global variables, class-level fields, singleton state) across test cases without proper setup/teardown isolation | 3. RASIS | 🟡 Should Fix |
 
 ## 7. Domain-Specific Anti-Patterns (from ADR Experience)
 
@@ -89,12 +109,12 @@ These patterns were extracted from recurring architectural decision discussions 
 
 | Criterion | Anti-Patterns |
 |-----------|--------------|
-| 1. Spec-Code Alignment | I7, T1, T4 |
+| 1. Spec-Code Alignment | I7, T1, T2, T4, T5, T6, T7, T10 |
 | 2. Security | S1, S2, S3, S4, S5, S6, S7 |
-| 3. RASIS | E1, E2, E3, E4, E5, E6, T3, X1 |
-| 4. Cost Efficiency | P1, P2, P3, P4, X2 |
+| 3. RASIS | E1, E2, E3, E4, E5, E6, T3, T12, X1 |
+| 4. Cost Efficiency | P1, P2, P3, P4, T9, X2 |
 | 5. SOLID | D1, D2, D3, D6, D7, I5 |
 | 6. YAGNI | D4, D5, D8 |
 | 7. DRY | I1, I2 |
-| 8. Best Practices | T2 |
-| 9. Readability | I3, I4, I6 |
+| 8. Best Practices | T11 |
+| 9. Readability | I3, I4, I6, T8 |
