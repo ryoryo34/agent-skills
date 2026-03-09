@@ -1,0 +1,23 @@
+{
+  "skill_name": "research",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "マイクロサービスのAPI設計におけるベストプラクティスを調べて",
+      "expected_output": "公式ドキュメントやTier S/Aソースを中心としたAPI設計ベストプラクティスレポート。ソース一覧付き。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "RAG (Retrieval-Augmented Generation) の最新の研究動向を調査して",
+      "expected_output": "高被引用論文やトップ会議の論文を中心としたRAG研究動向レポート。各論文の信頼性ティア付き。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "大規模サービスでのFeature Flagの運用事例を調べて",
+      "expected_output": "企業公式ブログやカンファレンス発表を中心としたFeature Flag運用事例レポート。ソースの信頼性が明示されていること。",
+      "files": []
+    }
+  ]
+}

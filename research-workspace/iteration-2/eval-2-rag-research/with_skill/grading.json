@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "run_type": "with_skill",
+  "expectations": [
+    {"text": "各ソースに信頼性ティア(S/A/B等)が明示されている", "passed": true, "evidence": "全15ソースに[S],[A],[B]タグ。S:5, A:4, B:5"},
+    {"text": "5件以上のソースが引用されている", "passed": true, "evidence": "15件"},
+    {"text": "主要な事実主張にソース引用がある", "passed": true, "evidence": "全8 FindingにSources記載"},
+    {"text": "引用URLが実在する(捏造でない)", "passed": true, "evidence": "arXiv, ACL Anthology, Microsoft Research等"},
+    {"text": "ソースに公開日が記載されている", "passed": true, "evidence": "全ソースにYYYY-MM形式で日付記載"},
+    {"text": "Caveats/注意事項セクションがある", "passed": true, "evidence": "5項目のCaveats"},
+    {"text": "Executive Summary + Findings + Source Listの構造を持つ", "passed": true, "evidence": "完全構造"}
+  ]
+}

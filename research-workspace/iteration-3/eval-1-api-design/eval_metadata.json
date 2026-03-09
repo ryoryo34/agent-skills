@@ -1,0 +1,15 @@
+{
+  "eval_id": 1,
+  "eval_name": "api-design-best-practices",
+  "prompt": "マイクロサービスのAPI設計におけるベストプラクティスを調べて",
+  "assertions": [
+    {"id": "A1", "text": "各ソースに信頼性ティア(S/A/B等)が明示されている"},
+    {"id": "A2", "text": "5件以上のソースが引用されている"},
+    {"id": "A3", "text": "主要な事実主張にソース引用がある"},
+    {"id": "A4", "text": "引用URLが実在する(捏造でない)"},
+    {"id": "A5", "text": "ソースに公開日が記載されている"},
+    {"id": "A6", "text": "Caveats/注意事項セクションがある"},
+    {"id": "A7", "text": "Executive Summary + Findings + Source Listの構造を持つ"},
+    {"id": "A8", "text": "各ソースに★1-5の関連度評価と理由が付与されている"}
+  ]
+}

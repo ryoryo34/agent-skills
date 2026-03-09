@@ -1,0 +1,89 @@
+{
+  "skill_name": "research",
+  "iteration": 1,
+  "configurations": [
+    {
+      "name": "with_skill",
+      "pass_rate": {"mean": 0.952, "stddev": 0.082},
+      "time_seconds": {"mean": 198.6, "stddev": 14.2},
+      "total_tokens": {"mean": 33662, "stddev": 2476},
+      "evals": [
+        {
+          "eval_name": "api-design-best-practices",
+          "passed": 6,
+          "total": 7,
+          "pass_rate": 0.857,
+          "failed_assertions": ["ソースに公開日が記載されている"],
+          "time_seconds": 188.5,
+          "total_tokens": 35003
+        },
+        {
+          "eval_name": "rag-research-trends",
+          "passed": 7,
+          "total": 7,
+          "pass_rate": 1.0,
+          "failed_assertions": [],
+          "time_seconds": 214.4,
+          "total_tokens": 35140
+        },
+        {
+          "eval_name": "feature-flags-case-studies",
+          "passed": 7,
+          "total": 7,
+          "pass_rate": 1.0,
+          "failed_assertions": [],
+          "time_seconds": 192.8,
+          "total_tokens": 30842
+        }
+      ]
+    },
+    {
+      "name": "without_skill",
+      "pass_rate": {"mean": 0.429, "stddev": 0.082},
+      "time_seconds": {"mean": 168.5, "stddev": 2.7},
+      "total_tokens": {"mean": 24201, "stddev": 1332},
+      "evals": [
+        {
+          "eval_name": "api-design-best-practices",
+          "passed": 2,
+          "total": 7,
+          "pass_rate": 0.286,
+          "failed_assertions": ["ソースティア明示", "主要主張にソース引用", "日付記載", "Caveats", "レポート構造"],
+          "time_seconds": 169.2,
+          "total_tokens": 23307
+        },
+        {
+          "eval_name": "rag-research-trends",
+          "passed": 3,
+          "total": 7,
+          "pass_rate": 0.429,
+          "failed_assertions": ["ソースティア明示", "日付記載", "Caveats", "レポート構造"],
+          "time_seconds": 165.7,
+          "total_tokens": 23456
+        },
+        {
+          "eval_name": "feature-flags-case-studies",
+          "passed": 4,
+          "total": 7,
+          "pass_rate": 0.571,
+          "failed_assertions": ["ソースティア明示", "日付記載", "Caveats"],
+          "time_seconds": 170.7,
+          "total_tokens": 25841
+        }
+      ]
+    }
+  ],
+  "delta": {
+    "pass_rate": "+52.3pp",
+    "time_seconds": "+30.1s (+17.9%)",
+    "total_tokens": "+9461 (+39.1%)"
+  },
+  "analyst_observations": [
+    "A1(ソースティア明示), A6(Caveats), A7(レポート構造)はスキル固有の要件であり、ベースラインでは一切達成されない。スキルの最も明確な付加価値",
+    "A2(ソース数)とA4(URL実在性)は両構成で全パス。スキルの有無に関係なく達成される非識別的アサーション",
+    "A3(主張へのソース紐づけ)はwith_skillで全パス、without_skillでは1/3のみパス。スキルが個別Findingへのソース付与を促進",
+    "A5(日付記載)はwith_skillでも1件FAIL(eval-1)。スキルの指示をさらに強化する余地あり",
+    "トークン使用量はwith_skillが約39%増。Phase構造に従うことで検索回数が増え、より深い調査が行われている",
+    "時間差は約30秒(+18%)で、品質向上に対するコストとしては妥当"
+  ]
+}

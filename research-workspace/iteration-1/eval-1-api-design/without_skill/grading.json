@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "run_type": "without_skill",
+  "expectations": [
+    {"text": "各ソースに信頼性ティア(S/A/B等)が明示されている", "passed": false, "evidence": "ソースにティア分類なし。Sourcesセクションはフラットなリスト"},
+    {"text": "5件以上のソースが引用されている", "passed": true, "evidence": "27件のソースがSourcesセクションに記載"},
+    {"text": "主要な事実主張にソース引用がある", "passed": false, "evidence": "本文中に個別ソース引用なし。末尾にまとめてSourcesリストがあるのみ"},
+    {"text": "引用URLが実在する(捏造でない)", "passed": true, "evidence": "Microsoft Learn, microservices.io等の実在URL。WebSearch由来"},
+    {"text": "ソースに公開日が記載されている", "passed": false, "evidence": "ソースリストに公開日の記載なし"},
+    {"text": "Caveats/注意事項セクションがある", "passed": false, "evidence": "Caveatsセクションなし"},
+    {"text": "Executive Summary + Findings + Source Listの構造を持つ", "passed": false, "evidence": "Executive Summaryなし。セクション番号付きだがFindings形式ではない"}
+  ]
+}
