@@ -103,6 +103,70 @@ These patterns were extracted from recurring architectural decision discussions 
 | X1 | Stale Reference | Config, URLs, or dependency versions referencing deprecated/removed resources | 3. RASIS | 🟡 Should Fix |
 | X2 | Toolchain Cascade | Adding a build tool/dependency that pulls in a large transitive dependency tree | 4. Cost Efficiency | 🟡 Should Fix |
 
+## 8. Non-Functional Requirements Anti-Patterns
+
+These patterns are applied conditionally based on context detection (see `context-rules.md`).
+
+### 8a. Observability Anti-Patterns
+
+| # | Name | What It Looks Like | NFR Criterion | Default Severity |
+|---|------|--------------------|---------------|-----------------|
+| N1 | Missing Structured Logging | Using `console.log` / `print` / `System.out` instead of structured logger in API/backend code | NF1. Observability | 🟡 Should Fix |
+| N2 | Log Without Context | Error log with message only — missing request ID, user context, or trace ID | NF1. Observability | 🟡 Should Fix |
+| N3 | Unclosed Span | Distributed tracing span opened but not closed in finally/defer block | NF1. Observability | 🔴 Must Fix |
+| N4 | High Cardinality Metric | Metric attribute with unbounded values (user ID, request path with parameters) | NF1. Observability | 🟡 Should Fix |
+
+### 8b. Scalability Anti-Patterns
+
+| # | Name | What It Looks Like | NFR Criterion | Default Severity |
+|---|------|--------------------|---------------|-----------------|
+| N5 | Local State Dependency | Session data, cache, or temp files stored on local filesystem assuming single-instance | NF2. Scalability | 🟡 Should Fix |
+| N6 | Missing Timeout | Remote call (HTTP, gRPC, DB) without explicit timeout configuration | NF2. Scalability | 🔴 Must Fix |
+| N7 | Unbounded Query | `SELECT * FROM table` without LIMIT/pagination on potentially large datasets | NF2. Scalability | 🔴 Must Fix |
+
+### 8c. Accessibility Anti-Patterns
+
+| # | Name | What It Looks Like | NFR Criterion | Default Severity |
+|---|------|--------------------|---------------|-----------------|
+| N8 | Missing Alt Text | `<img>` without `alt` attribute | NF3. Accessibility | 🔴 Must Fix |
+| N9 | Click Handler on Div | `<div onClick>` instead of `<button>` for interactive elements | NF3. Accessibility | 🟡 Should Fix |
+| N10 | Missing Form Label | `<input>` without associated `<label>` (via for/id or wrapping) | NF3. Accessibility | 🔴 Must Fix |
+| N11 | Positive Tabindex | `tabindex` with value > 0 disrupting natural tab order | NF3. Accessibility | 🟡 Should Fix |
+| N12 | Color Only Indicator | Error/success states communicated only through color | NF3. Accessibility | 🟡 Should Fix |
+
+### 8d. i18n Anti-Patterns
+
+| # | Name | What It Looks Like | NFR Criterion | Default Severity |
+|---|------|--------------------|---------------|-----------------|
+| N13 | Hardcoded UI String | User-visible text written directly in source code instead of translation key | NF4. i18n | 🟡 Should Fix |
+| N14 | String Concatenation Message | Building user messages via string concatenation (`"Hello " + name + "!"`) instead of parameterized messages | NF4. i18n | 🟡 Should Fix |
+| N15 | Hardcoded Date Format | Date/number formatting using hardcoded patterns instead of Intl API or locale-aware library | NF4. i18n | 🟡 Should Fix |
+
+### 8e. API Compatibility Anti-Patterns
+
+| # | Name | What It Looks Like | NFR Criterion | Default Severity |
+|---|------|--------------------|---------------|-----------------|
+| N16 | Silent Field Removal | Response field removed without deprecation notice or version bump | NF5. API Compatibility | 🔴 Must Fix |
+| N17 | Required Field Addition | New required request parameter added to existing endpoint without version bump | NF5. API Compatibility | 🔴 Must Fix |
+| N18 | Default Value Change | Default value of existing parameter silently changed | NF5. API Compatibility | 🟡 Should Fix |
+
+### 8f. Operability Anti-Patterns
+
+| # | Name | What It Looks Like | NFR Criterion | Default Severity |
+|---|------|--------------------|---------------|-----------------|
+| N19 | Hardcoded Config | Environment-specific values (URLs, ports, connection strings) embedded in source code | NF6. Operability | 🟡 Should Fix |
+| N20 | Irreversible Migration | DB migration with no rollback path (DROP COLUMN, data transformation without backup) | NF6. Operability | 🔴 Must Fix |
+| N21 | Missing Health Check | New service or endpoint without health/readiness probe | NF6. Operability | 🟡 Should Fix |
+
+### 8g. Data Privacy Anti-Patterns
+
+| # | Name | What It Looks Like | NFR Criterion | Default Severity |
+|---|------|--------------------|---------------|-----------------|
+| N22 | PII in Logs | Personal data (email, phone, name, IP) written to logs or error messages | NF7. Data Privacy | 🔴 Must Fix |
+| N23 | Excessive Data Collection | Collecting personal data fields not required for the feature's purpose | NF7. Data Privacy | 🟡 Should Fix |
+| N24 | Unencrypted PII Storage | PII stored in database without encryption at rest | NF7. Data Privacy | 🔴 Must Fix |
+| N25 | PII in API Response | API returning PII fields that the consumer does not need | NF7. Data Privacy | 🟡 Should Fix |
+
 ---
 
 ## Quick Reference: Criterion → Anti-Patterns
@@ -118,3 +182,10 @@ These patterns were extracted from recurring architectural decision discussions 
 | 7. DRY | I1, I2 |
 | 8. Best Practices | T11 |
 | 9. Readability | I3, I4, I6, T8 |
+| NF1. Observability | N1, N2, N3, N4 |
+| NF2. Scalability | N5, N6, N7 |
+| NF3. Accessibility | N8, N9, N10, N11, N12 |
+| NF4. i18n | N13, N14, N15 |
+| NF5. API Compatibility | N16, N17, N18 |
+| NF6. Operability | N19, N20, N21 |
+| NF7. Data Privacy | N22, N23, N24, N25 |
