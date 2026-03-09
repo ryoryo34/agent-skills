@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "run_type": "with_skill",
+  "expectations": [
+    {"text": "各ソースに信頼性ティア(S/A/B等)が明示されている", "passed": true, "evidence": "全18ソースに[S],[A],[B]タグが付いている。Source Reliability Summaryも記載"},
+    {"text": "5件以上のソースが引用されている", "passed": true, "evidence": "18件のソースがSource Listに記載"},
+    {"text": "主要な事実主張にソース引用がある", "passed": true, "evidence": "全10のFindingセクションにSources記載あり。各主張がソースに紐づいている"},
+    {"text": "引用URLが実在する(捏造でない)", "passed": true, "evidence": "Microsoft Learn, Google Cloud, AWS等の公式URL。WebSearch由来"},
+    {"text": "ソースに公開日が記載されている", "passed": false, "evidence": "Microsoft (2025-10-16)やZalando (2019/04)等は日付あり。Google, AWS, RFCなど日付なしのソースも複数"},
+    {"text": "Caveats/注意事項セクションがある", "passed": true, "evidence": "5項目のCaveatsセクションあり。WebFetch制限、GraphQL未深掘り、パフォーマンス数値の条件等を記載"},
+    {"text": "Executive Summary + Findings + Source Listの構造を持つ", "passed": true, "evidence": "Executive Summary→Findings(10項目)→Source Reliability Summary→Source List→Caveatsの完全構造"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "eval_id": 3,
+  "run_type": "with_skill",
+  "expectations": [
+    {"text": "各ソースに信頼性ティア(S/A/B等)が明示されている", "passed": true, "evidence": "全19ソースに[S],[A],[B]タグ。S:8, A:6, B:3"},
+    {"text": "5件以上のソースが引用されている", "passed": true, "evidence": "19件"},
+    {"text": "主要な事実主張にソース引用がある", "passed": true, "evidence": "全8 FindingにSources記載"},
+    {"text": "引用URLが実在する(捏造でない)", "passed": true, "evidence": "Netflix TechBlog, Uber Blog, AWS, Chrome Developers等"},
+    {"text": "ソースに公開日が記載されている", "passed": true, "evidence": "全ソースに日付記載。Chromium Docsは'Date unknown'と明記 — スキル指示通り"},
+    {"text": "Caveats/注意事項セクションがある", "passed": true, "evidence": "5項目のCaveats"},
+    {"text": "Executive Summary + Findings + Source Listの構造を持つ", "passed": true, "evidence": "完全構造"}
+  ]
+}
