@@ -1,13 +1,13 @@
 ---
 name: code-review
-description: 9-criteria checklist-driven code review. Evaluates spec alignment, security, RASIS, cost, SOLID, YAGNI, DRY, best practices, readability. Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code".
+description: 9-criteria + context-adaptive NFR checklist-driven code review. Evaluates spec alignment, security, RASIS, cost, SOLID, YAGNI, DRY, best practices, readability + non-functional requirements (observability, scalability, a11y, i18n, API compatibility, operability, data privacy). Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code".
 allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
 context: fork
 ---
 
-# Code Review — Checklist-Driven
+# Code Review — Checklist-Driven + Context-Adaptive NFR
 
-Review code changes using 9 prioritized criteria. Apply each criterion in order, report findings by severity.
+Review code changes using 9 prioritized criteria + context-adaptive non-functional requirements. Apply each criterion in order, then apply NFR criteria based on detected context. Report findings by severity.
 
 ## Phase 1: Scope
 
@@ -18,6 +18,15 @@ Identify the review target.
 3. If no diff is found, ask the user what to review via AskUserQuestion
 4. Collect changed file list and line counts: `git diff --stat`
 5. If total changed lines > 400, warn and suggest per-file review
+6. Read `references/context-rules.md` for context detection rules
+7. Apply Stage 1 (file pattern matching) to categorize changed files
+8. Apply Stage 2 (project exploration) using Read, Glob, Grep to detect:
+   - Framework and libraries (package.json, go.mod, etc.)
+   - Existing observability setup (logger imports)
+   - i18n configuration (locales directory, i18n libraries)
+   - API definitions (OpenAPI, protobuf, GraphQL schemas)
+   - Health check implementations
+9. Determine applicable NFR criteria based on category → NFR mapping
 
 Output:
 
@@ -27,6 +36,9 @@ Output:
 - Files changed: [N]
 - Lines: +[added] / -[deleted]
 - Languages: [detected from extensions]
+- Context: [detected categories]
+- NFR criteria: [NF1, NF3, ...] (applied based on context)
+- Project signals: [e.g., "Next.js detected", "i18n not configured"]
 ```
 
 ## Phase 2: Scan
@@ -43,6 +55,11 @@ Apply 9 criteria in priority order against the diff.
       - Criterion name (1-9)
       - Severity: 🔴 Must Fix / 🟡 Should Fix / 💡 Nit
       - 1-2 sentence description of the problem and recommendation
+4. Read `references/nfr-criteria.md` for non-functional requirements checklist
+5. For each changed file, apply the NFR criteria determined in Phase 1:
+   a. Only apply criteria mapped to the file's detected category
+   b. Cross-reference against `references/anti-patterns.md` Section 8 (NFR Anti-Patterns)
+   c. For each detected issue, record using the same format as criteria 1-9
 
 ### Severity Guide
 
@@ -75,6 +92,11 @@ Output the review report in the following format:
 - 🔴 Must Fix: [N]
 - 🟡 Should Fix: [N]
 - 💡 Nit: [N]
+
+### NFR Context
+- Categories: [API, Frontend, ...]
+- Applied: [NF1. Observability, NF3. Accessibility, ...]
+- Skipped: [NF4. i18n (not configured in project)]
 
 ### 🔴 Must Fix
 
@@ -117,3 +139,4 @@ Options:
 - **Actionable feedback**: Every issue must include what should change, not just what is wrong
 - **No false positives**: If uncertain, do not flag it. Precision over recall
 - **Proportional effort**: Spend more time on criteria 1-3 (highest priority) than 7-9
+- **NFR context-awareness**: NFR criteria are applied based on file context, not globally. If no NFR-relevant context is detected, only the 9 core criteria are applied
