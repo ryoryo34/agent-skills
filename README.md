@@ -6,9 +6,11 @@ This repository is a skills inventory for AI agents. It aggregates multiple [Age
 
 | Skill | Description |
 |-------|-------------|
-| [suggest-skill](./skills/suggest-skill/) | Analyze conversations and suggest skill candidates (Evaluation-Driven Development) |
 | [dig](./skills/dig/) | Clarify ambiguities in plans with structured questions |
 | [eval-plan](./skills/eval-plan/) | Self-evaluate plans for completeness, consistency, and feasibility (100-point scoring) |
+| [code-review](./skills/code-review/) | 9-criteria + context-adaptive NFR checklist-driven code review |
+| [research](./skills/research/) | Source-quality-guaranteed research with reliability tiers and verification |
+| [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
 
 ## Structure
 
@@ -18,10 +20,6 @@ agent-skills/
 │   └── marketplace.json       # Marketplace config listing all skills
 ├── README.md
 └── skills/
-    ├── suggest-skill/         # Conversation analysis & skill suggestion
-    │   ├── SKILL.md
-    │   └── references/
-    │       └── patterns.md
     ├── dig/                   # Plan ambiguity clarifier
     │   └── SKILL.md
     └── eval-plan/             # Plan self-evaluation (100-point scoring)
