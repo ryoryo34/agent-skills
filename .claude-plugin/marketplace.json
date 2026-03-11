@@ -19,7 +19,8 @@
         "./skills/eval-plan",
         "./skills/code-review",
         "./skills/research",
-        "./skills/claude-github-setup"
+        "./skills/claude-github-setup",
+        "./skills/domain-model"
       ]
     }
   ]
