@@ -12,6 +12,7 @@ This repository is a skills inventory for AI agents. It aggregates multiple [Age
 | [research](./skills/research/) | Source-quality-guaranteed research with reliability tiers and verification |
 | [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
 | [domain-model](./skills/domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
+| [ai-estimate](./skills/ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
 
 ## Structure
 
