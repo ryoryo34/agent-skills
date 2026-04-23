@@ -23,6 +23,9 @@
         "./skills/domain-model",
         "./skills/ai-estimate",
         "./skills/kintone-design"
+      ],
+      "agents": [
+        "./agents/kintone-architect.md"
       ]
     }
   ]
