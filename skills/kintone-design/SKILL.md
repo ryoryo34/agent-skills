@@ -259,4 +259,4 @@ kintone は「データベース」ではなく「**アプリ = マイクロサ�
 
 ## Eval 結果
 
-本スキルは 3 テストケースで with_skill **100% (19/19)** / without_skill 63.2% (12/19) を達成。用語警告（+50pt）と DDD マッピング（+57pt）で大きな効果。詳細は `BENCHMARK.md` 参照。
+iteration-2（3 走行/設定）で with_skill **100% (57/57, stddev 0.00)** / without_skill 66.7% (38/57, stddev 0.03)。用語警告（+50pt）と DDD マッピング（+47.6pt）で大きな効果、再現性完全一致。詳細は `BENCHMARK.md` 参照。

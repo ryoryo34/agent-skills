@@ -13,7 +13,7 @@ This repository is a skills inventory for AI agents. It aggregates multiple [Age
 | [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
 | [domain-model](./skills/domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
 | [ai-estimate](./skills/ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
-| [kintone-design](./skills/kintone-design/) | kintone アプリ設計を DDD 視点で支援（概念マッピング + CQRS/ES 用語警告 + 物理設計チェックリスト + アンチパターン集）。eval で **100% (19/19) vs without_skill 63.2%**。詳細は [BENCHMARK.md](./skills/kintone-design/BENCHMARK.md) |
+| [kintone-design](./skills/kintone-design/) | kintone アプリ設計を DDD 視点で支援（概念マッピング + CQRS/ES 用語警告 + 物理設計チェックリスト + アンチパターン集）。iteration-2 (3 走行/設定) で **100% (57/57) vs without_skill 66.7% (38/57)**、標準偏差 0.00。詳細は [BENCHMARK.md](./skills/kintone-design/BENCHMARK.md) |
 
 ## Agents
 
