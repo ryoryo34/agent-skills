@@ -181,15 +181,30 @@ Vaughn Vernon の4ルールに従う:
 - 金額に負の値を設定できたら？ → 不正な請求が発生
 - 注文ステータスを「発送済み」から「未払い」に戻せたら？ → 業務フローが破綻
 
-#### 導出された不変条件
-- 金額は 0 以上であること
-- ステータス遷移は [未払い → 支払済 → 発送済 → 完了] の一方向のみ
+#### 導出された不変条件（安定 ID 付与）
+- **I-1** 金額は 0 以上であること
+- **I-2** ステータス遷移は [未払い → 支払済 → 発送済 → 完了] の一方向のみ
 
 #### 実装方針
 - コンストラクタで検証
 - 不変フィールド（イミュータブル）
 - 状態遷移メソッドでガード
 ```
+
+**安定 ID の付与理由**: 不変条件には Aggregate ローカルの安定 ID（`I-1, I-2 ...`）を付与する。Properties 表の Description や状態遷移図、テスト設計から不変条件を参照するときにトレーサビリティが確保できる。内部 Entity 固有の不変条件は `OI-1` のような Entity 固有 prefix で区別する（OrderItem なら `OI-`）。
+
+#### Corrective Policy（結果整合で扱う制約）
+
+全ての制約を Aggregate の即時整合（トランザクション内）で守る必要はない。「即時に守ると Aggregate が肥大化する」「他 Aggregate の状態に依存する」場合は、結果整合で扱う **Corrective Policy** として切り分ける。
+
+```
+- [CP-1] 在庫チェックは結果整合 → 失敗時は OrderHeldForBackorder を発行（即時ロールバックしない）
+```
+
+不変条件 vs Corrective Policy の判断基準:
+
+- **不変条件 (I-N)**: Aggregate 自身が即時に守るべき。違反したらコンストラクタ・メソッドで拒否
+- **Corrective Policy (CP-N)**: 結果整合で扱う。違反検知後は補正アクション（補償イベント等）で対応
 
 ### 4.4 リッチドメインモデルの確認
 
@@ -210,67 +225,54 @@ AskUserQuestion で確認:
 
 全フェーズの成果を統合し、構造化されたドメインモデルを出力する。
 
-### 出力フォーマット
+### 適用度の段階的厳格さ（重要）
 
-Bounded Context ごと、Aggregate ごとに以下を出力する:
+DDD の主流見解（Vernon, Evans, ddd-crew）は「**コアドメインに DDD を集中、汎用ドメインは CRUD で十分**」。Phase 3.2 で分類した3区分ごとに出力厳格さを段階適用する：
 
-```markdown
+| 分類 | 必須セクション | 省略可セクション |
+|------|--------------|----------------|
+| **コアドメイン** | Description / Structure / Properties / Domain Events / Invariants / Corrective Policies / State Transitions の **全7セクション省略禁止** | なし |
+| **サポートドメイン** | Description / Properties / Domain Events / Invariants（最低限） | Structure / Corrective Policies / State Transitions（持つ場合「なし」明示。CRUD なら省略可） |
+| **汎用ドメイン** | Description / Properties / Domain Events の **3セクション最小** | Structure / Invariants / Corrective Policies / State Transitions（**全て省略可**。汎用に DDD 戦術設計を強制しない） |
+
+「省略可」は **必要があれば書いてもよい**意味。汎用ドメインを無理にリッチドメインモデル化しないこと。
+
+### 出力構造のサマリ
+
+```
 # ドメインモデル: [システム名]
-
 ## 概要
-- 目的: [Phase 1 で特定した目的]
-- アクター: [アクター一覧]
-- Bounded Context 数: [N]
-
----
-
-## Bounded Context: [Context名]
-- 分類: コアドメイン / サポートドメイン / 汎用ドメイン
-- 責務: [このContextが担う責務]
-
-### Aggregate: [Aggregate名]
-- **Aggregate Root**: [Root Entity名]
-- **責務**: [このAggregateが守る業務ルール]
-
-#### Entity
-| 名前 | 属性 | 振る舞い |
-|------|------|---------|
-| [Entity名] | id: ID, name: String, ... | approve(), cancel(), ... |
-
-#### Value Object
-| 名前 | 属性 | 不変条件 |
-|------|------|---------|
-| [VO名] | amount: Int, currency: String | amount >= 0, currency は ISO 4217 |
-
-#### 不変条件
-- [不変条件1]
-- [不変条件2]
-
-#### ドメインイベント
-- [イベント1]: [発生条件]
-- [イベント2]: [発生条件]
-
----
-
 ## Context Map
-[Context間の関係を記述]
-
 ## ユビキタス言語辞書
-[全Contextの用語定義]
+---
+## Bounded Context: [Context名]（分類: コア/サポート/汎用、責務: ...）
+### [Aggregate名] (Aggregate Root)
+  **Description**, [Structure], Properties, Domain Events, [Invariants], [Corrective Policies], [State Transitions]
+  #### [内部Entity名] (Entity, internal to ...)
+### Value Objects ([Aggregate名] scope)
+---
+## Cross-Aggregate Reference Map（Aggregate ≥2 のみ。Mermaid erDiagram）
 ```
 
-### 自己評価チェック
+### 詳細フォーマット
 
-出力前に以下を確認する:
+**最終出力を生成する直前に必ず `references/output-format.md` を読むこと**。そこには以下が含まれる：
 
-- [ ] 各 Aggregate は小さく保たれているか（Vernon ルール2）
+- 出力テンプレート（コアドメイン用フル形式）
+- サブドメイン別の最小構成（サポート / 汎用用）
+- フォーマット細部ルール（Properties 表 / Domain Events 表 / Invariants / Corrective Policies / State Transitions / Structure / Aggregate Root vs Entity vs VO / Cross-Aggregate Reference Map）
+- 詳細な自己評価チェックリスト（戦略設計 / 分類別 / フォーマット規約 / 全体構造）
+
+### 簡略チェック（出力直前）
+
+最終確認は references/output-format.md の詳細チェックリストで行うこと。SKILL.md レベルでは以下の最重要項目だけ確認：
+
+- [ ] 各 Bounded Context にコア/サポート/汎用の分類が付与されているか
+- [ ] 分類に応じた適切な詳細度で出力されているか（コアは全7セクション、汎用は3セクション最小）
+- [ ] 不変条件に安定 ID（I-N）が付与されているか（コア・サポート）
 - [ ] Aggregate 間は ID 参照のみか（Vernon ルール3）
-- [ ] 全ての不変条件が明示されているか
-- [ ] 貧血モデルになっていないか（振る舞いがあるか）
-- [ ] Context 境界は言語ゲームの境界と一致しているか
-- [ ] コアドメインに DDD の厳格なパターンが適用されているか
-- [ ] 汎用ドメインに過剰な設計がされていないか
-- [ ] ユビキタス言語が定義されているか
+- [ ] 貧血モデル化していないか（**コア・サポートのみ**該当。汎用は CRUD で OK）
+- [ ] Aggregate が 2 つ以上の場合、Cross-Aggregate Reference Map が Mermaid `erDiagram` で出力されているか
 
 ## 進め方のガイドライン
 
