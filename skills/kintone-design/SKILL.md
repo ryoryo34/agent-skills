@@ -108,6 +108,44 @@ kintone は「データベース」ではなく「**アプリ = マイクロサ�
 2. 複数件表示 + マスタ追随が必要（集計不要） → 関連レコード
 3. 両方必要 → **別アプリ（Materialized View）化**
 
+#### Check 2.1: N:1 リレーションの実装鉄則
+
+N:1（多対一）の関係を実装する際、**どちら側にどの機能を置くか**を以下で決め打ちする:
+
+```
+  [1 側: マスタ / Knowledge]               [N 側: トランザクション / Case]
+        id (unique)                              foreign_id
+        ↑ ←──── LOOKUP ────────────────── foreign_id ← 値コピー元
+        ↑
+        └───── REFERENCE_TABLE ──────── 逆引き一覧として 1 側に配置
+```
+
+- **N 側に LOOKUP**: N レコードは親（1 側）の値をコピーして持つ。変更追随や集計に使う
+- **1 側に REFERENCE_TABLE**: 1 レコードから関連する N 件を逆引きで表示（データ重複なし）
+- **subtable で N を保持するのは NG**: 1 側 app にサブテーブルで N 側情報を重複して持たせると、N 側との二重管理になり同期が取れない（アンチパターン AP-11）
+
+#### Check 2.2: LOOKUP の参照先は unique 必須
+
+LOOKUP の `relatedKeyField` に指定するフィールドは **値の重複を禁止する** 設定が必須（kintone 仕様）。
+
+- 一般的には 1 側の `id` フィールドが unique になっている前提
+- レコード番号（`$id`）は自動的に unique だが、マイグレーションで非連番化するため業務キーには使わない（Check 3 参照）
+- 業務キー（`CASE-0001` 等）を SINGLE_LINE_TEXT で作る場合、**unique: true を明示的に設定**する
+
+⚠️ MCP ツール経由で `unique: true` を指定しても silent drop するバグあり（`kintone-app-deploy` スキル参照）。UI で手動設定が必要なケースがある。
+
+#### Check 2.3: 選択肢系フィールドの初期化
+
+DROP_DOWN / RADIO_BUTTON / CHECK_BOX / MULTI_SELECT を作成する際、`options` を**空のまま作成できない**（API が 400 を返す）。
+
+「選択肢は後から追加」の場合もプレースホルダを 1 件以上入れる:
+
+```json
+"options": {
+  "未分類": { "label": "未分類", "index": "0" }
+}
+```
+
 ### Check 3: 採番ルール
 
 | 観点 | 判断 |
@@ -180,6 +218,8 @@ kintone は「データベース」ではなく「**アプリ = マイクロサ�
 | レコード番号を一意キー | データ移行で非連番化（公式警告） | プラグイン or JS 採番（プレフィックス付） |
 | スペース越境の乱用ルックアップ | Bounded Context の崩壊 | スペース内で完結 or Anti-Corruption Layer |
 | 「DDD やります」と言ってフィールド設定だけで終わる | Aggregate 境界・不変条件の設計なしに物理から入ると地獄 | 先にドメインモデリング、後に物理 |
+| **AP-11: N:1 の 1 側に subtable で N 情報を抱える** | N 側レコード（独立した Aggregate）と二重管理になり同期破綻 | LOOKUP(N 側) + REFERENCE_TABLE(1 側) の鉄則を適用 |
+| **AP-12: 業務キー（id）に unique を立てない** | LOOKUP の参照先に使うと `GAIA_LO03` でレコード追加が失敗する | 作成時から `unique: true`、MCP で silent drop する場合は UI 手動設定 |
 
 詳細は `references/anti-patterns.md` を参照。
 
@@ -256,6 +296,24 @@ kintone は「データベース」ではなく「**アプリ = マイクロサ�
 5. 成果物生成（アプリ一覧 / フィールド設計 / ER 図 / 判断ログ）
 
 使い分け: 本スキル単体は「設計レビュー」「用語警告」「物理チェック」の局所用途、`kintone-architect` エージェントは「要件からアプリ構成までのパイプライン」用。
+
+## 実装フェーズへの橋渡し
+
+本スキルで設計が固まったら、**実装・デプロイ・レイアウトの物理化**は以下のスキル / エージェントに引き継ぐ:
+
+- `kintone-app-deploy` — フィールド追加・変更・削除のデプロイ順序、破壊的変更の 2 段階デプロイ、MCP ツール silent drop 回避策
+- `kintone-app-layout` — レイアウト設計（LABEL 幅の明示、HTML/CSS 装飾、セクション構造化、フィールド幅統一）
+- `kintone-engineer` エージェント — 上記 2 スキルをオーケストレートする実装担当。`kintone-architect` の下流として配置
+
+設計 → 実装の流れ:
+
+```
+[kintone-architect]           設計フェーズ（本スキル + domain-model を利用）
+       ↓ アプリ一覧・フィールド設計・ER 図を引き渡し
+[kintone-engineer]        実装フェーズ（kintone-app-deploy + kintone-app-layout を利用）
+       ↓ 実アプリに物理化・レイアウト仕上げ
+       → デプロイ完了
+```
 
 ## Eval 結果
 

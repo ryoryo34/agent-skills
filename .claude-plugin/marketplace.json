@@ -22,10 +22,13 @@
         "./skills/claude-github-setup",
         "./skills/domain-model",
         "./skills/ai-estimate",
-        "./skills/kintone-design"
+        "./skills/kintone-design",
+        "./skills/kintone-app-deploy",
+        "./skills/kintone-app-layout"
       ],
       "agents": [
-        "./agents/kintone-architect.md"
+        "./agents/kintone-architect.md",
+        "./agents/kintone-engineer.md"
       ]
     }
   ]
