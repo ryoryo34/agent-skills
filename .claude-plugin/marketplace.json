@@ -1,5 +1,5 @@
 {
-  "name": "ryoryo-marketplace",
+  "name": "ryoryo-agent-skills",
   "owner": {
     "name": "ryoryo34",
     "email": "ryosei4email@gmail.com"
@@ -11,26 +11,7 @@
   "plugins": [
     {
       "name": "agent-skills",
-      "description": "A collection of AI agent skills for evaluation-driven development, plan clarification, and plan evaluation.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/dig",
-        "./skills/eval-plan",
-        "./skills/code-review",
-        "./skills/research",
-        "./skills/generalize-and-apply",
-        "./skills/claude-github-setup",
-        "./skills/domain-model",
-        "./skills/ai-estimate",
-        "./skills/kintone-design",
-        "./skills/kintone-app-deploy",
-        "./skills/kintone-app-layout"
-      ],
-      "agents": [
-        "./agents/kintone-architect.md",
-        "./agents/kintone-engineer.md"
-      ]
+      "source": "./plugins/agent-skills"
     }
   ]
 }
