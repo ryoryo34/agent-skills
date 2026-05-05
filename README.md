@@ -138,6 +138,51 @@ The Codex plugin marketplace is defined at:
 
 It registers `plugins/agent-skills`, whose Codex plugin manifest points at `./skills/`. That path lives inside the plugin package so Codex can copy the plugin into its cache and still find every skill.
 
+#### CodexでPluginを追加
+
+Codex はリポジトリルートの `.agents/plugins/marketplace.json` を marketplace として読み込む。ローカルでこのリポジトリを開くと、`plugins/agent-skills` が Codex plugin として表示される。
+
+1. Codex でこのリポジトリを開く
+2. Plugin / Marketplace 画面で **Ryoryo Agent Skills** を選ぶ
+3. **Agent Skills** plugin を install / enable する
+4. 新しいスレッドを開始するか、Codex を再読み込みして反映を確認する
+
+Codex plugin として認識されるために必要なファイルは以下:
+
+```bash
+.agents/plugins/marketplace.json
+plugins/agent-skills/.codex-plugin/plugin.json
+plugins/agent-skills/skills/
+```
+
+`marketplace.json` には plugin package への相対パスを登録する:
+
+```json
+{
+  "name": "agent-skills",
+  "source": {
+    "source": "local",
+    "path": "./plugins/agent-skills"
+  },
+  "policy": {
+    "installation": "AVAILABLE",
+    "authentication": "ON_INSTALL"
+  },
+  "category": "Productivity"
+}
+```
+
+`plugin.json` 側では、Codex に公開する skills directory を指定する:
+
+```json
+{
+  "name": "agent-skills",
+  "skills": "./skills/"
+}
+```
+
+このリポジトリでは `plugins/agent-skills/` が Claude Code と Codex の共有 plugin package なので、スキルを追加するときは `plugins/agent-skills/skills/`（またはルートの `skills` symlink）配下に追加すればよい。
+
 ### Claude Code Plugin
 
 The Claude marketplace is defined at:
