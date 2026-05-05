@@ -314,7 +314,3 @@ DROP_DOWN / RADIO_BUTTON / CHECK_BOX / MULTI_SELECT を作成する際、`option
        ↓ 実アプリに物理化・レイアウト仕上げ
        → デプロイ完了
 ```
-
-## Eval 結果
-
-iteration-2（3 走行/設定）で with_skill **100% (57/57, stddev 0.00)** / without_skill 66.7% (38/57, stddev 0.03)。用語警告（+50pt）と DDD マッピング（+47.6pt）で大きな効果、再現性完全一致。詳細は `BENCHMARK.md` 参照。
