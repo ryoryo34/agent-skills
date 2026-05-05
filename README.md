@@ -10,6 +10,7 @@ This repository is a skills inventory for AI agents. It aggregates multiple [Age
 | [eval-plan](./skills/eval-plan/) | Self-evaluate plans for completeness, consistency, and feasibility (100-point scoring) |
 | [code-review](./skills/code-review/) | 9-criteria + context-adaptive NFR checklist-driven code review |
 | [research](./skills/research/) | Source-quality-guaranteed research with reliability tiers and verification |
+| [generalize-and-apply](./skills/generalize-and-apply/) | 具体例・調査結果・競合パターンから共通原則を抽象化し、プロダクト/設計/意思決定へ再具体化する |
 | [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
 | [domain-model](./skills/domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
 | [ai-estimate](./skills/ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
@@ -30,15 +31,22 @@ This repository is a skills inventory for AI agents. It aggregates multiple [Age
 agent-skills/
 ├── .claude-plugin/
 │   └── marketplace.json       # Marketplace config (skills + agents)
+├── .agents/
+│   └── plugins/marketplace.json # Codex plugin marketplace config
 ├── README.md
 ├── agents/
 │   ├── kintone-architect.md   # Designer: requirements → DDD → kintone app structure
 │   └── kintone-engineer.md    # Implementer: structure → physical kintone (deploy + layout)
+├── plugins/
+│   └── agent-skills/          # Codex plugin wrapper for shared skills/
+│       ├── .codex-plugin/plugin.json
+│       └── skills -> ../../skills
 └── skills/
     ├── dig/                   # Plan ambiguity clarifier
     ├── eval-plan/             # Plan self-evaluation (100-point scoring)
     ├── code-review/           # 9-criteria code review
     ├── research/              # Source-quality-guaranteed research
+    ├── generalize-and-apply/  # Concrete examples → principles → applied recommendations
     ├── claude-github-setup/   # GitHub Actions automation
     ├── domain-model/          # DDD domain modeling
     ├── ai-estimate/           # AI-driven effort estimation
@@ -60,6 +68,7 @@ agent-skills/
 This repository supports three installation paths:
 
 - **Claude Code Plugin**: install the whole Claude plugin marketplace, including Claude-only agents.
+- **Codex Plugin**: install the local Codex plugin marketplace backed by the shared `skills/` directory.
 - **GitHub CLI `gh skill`**: install individual Agent Skills into Claude Code, Codex, or other supported agents.
 - **`npx skills add`**: install skills locally or from GitHub without depending on the latest `gh` preview command.
 
@@ -124,6 +133,16 @@ npx skills add ryoryo34/agent-skills \
 ```
 
 Use `--copy` if you want independent copies instead of symlinks.
+
+### Codex Plugin
+
+The Codex plugin marketplace is defined at:
+
+```bash
+.agents/plugins/marketplace.json
+```
+
+It registers `plugins/agent-skills`, whose plugin manifest points at `./skills/`. That `skills` path is a symlink to the repository-level `skills/` directory, so Agent Skills and the Codex plugin share one source of truth.
 
 ### Claude Code Plugin
 

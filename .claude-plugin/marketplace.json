@@ -19,6 +19,7 @@
         "./skills/eval-plan",
         "./skills/code-review",
         "./skills/research",
+        "./skills/generalize-and-apply",
         "./skills/claude-github-setup",
         "./skills/domain-model",
         "./skills/ai-estimate",
