@@ -17,6 +17,24 @@ Use this skill to move deliberately from concrete examples, to abstract principl
 
 Do not stop at a list of examples. The value of this skill is the translation layer: what the examples teach, and what the user should do because of it.
 
+## Abstraction Lens
+
+Abstraction depends on purpose.
+
+When the purpose is fixed, abstraction usually has an **N to 1** shape: many concrete examples are grouped into one useful principle, category, or decision rule.
+
+When the purpose is not fixed, one concrete example may produce **1 to M** abstractions because the same object has many valid aspects. For example, one full-bodied man can abstract to "man" through the lens of gender, and to "full-bodied" through the lens of body type.
+
+Before abstracting, identify the lens:
+
+- **Decision lens**: What decision should this abstraction help make?
+- **Comparison lens**: Which aspect of the examples is being compared?
+- **Transfer lens**: Which property needs to survive when applied to the user's context?
+
+If the lens is clear, compress many examples toward one or a few principles. If the lens is unclear, first surface multiple possible abstractions, then choose the one that serves the user's goal.
+
+Treat abstraction and concretion as a hierarchy. A concrete example can become an abstract principle, and that principle can become a new concrete recommendation. This visible hierarchy is the practical form of "learn 1, understand 10, apply to 100."
+
 ## Workflow
 
 ### 1. Define The Target Question
@@ -54,6 +72,8 @@ Use a compact table when comparing examples.
 ### 3. Abstract The Pattern
 
 Extract principles that are portable across examples.
+
+Start by naming the abstraction lens. If the user has already provided a clear goal, use it to form an N to 1 abstraction. If not, list the plausible 1 to M abstractions first and choose the lens that best serves the target question.
 
 Good abstractions describe:
 
@@ -96,6 +116,7 @@ Before answering, check that the output contains:
 
 - At least one specific observation from each important example.
 - A clear distinction between observed facts and inferred lessons.
+- The abstraction lens or purpose that explains why these examples are being grouped.
 - Principles that can transfer beyond the original examples.
 - A recommendation that is more specific than "copy the reference."
 - First steps small enough to execute or test.
