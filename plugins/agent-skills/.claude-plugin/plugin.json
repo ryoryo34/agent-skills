@@ -1,0 +1,19 @@
+{
+  "name": "agent-skills",
+  "description": "Reusable agent skills and Claude agents for research, review, planning, estimation, domain modeling, and kintone workflows.",
+  "version": "1.0.0",
+  "author": {
+    "name": "ryoryo34",
+    "email": "ryosei4email@gmail.com",
+    "url": "https://github.com/ryoryo34"
+  },
+  "homepage": "https://github.com/ryoryo34/agent-skills",
+  "repository": "https://github.com/ryoryo34/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "claude-code",
+    "codex",
+    "skills"
+  ]
+}
