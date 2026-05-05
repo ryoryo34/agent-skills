@@ -14,7 +14,7 @@ This repository is a skills inventory for AI agents. It aggregates multiple [Age
 | [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
 | [domain-model](./skills/domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
 | [ai-estimate](./skills/ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
-| [kintone-design](./skills/kintone-design/) | kintone アプリ設計を DDD 視点で支援（概念マッピング + CQRS/ES 用語警告 + 物理設計チェックリスト + アンチパターン集）。iteration-2 (3 走行/設定) で **100% (57/57) vs without_skill 66.7% (38/57)**、標準偏差 0.00。詳細は [BENCHMARK.md](./skills/kintone-design/BENCHMARK.md) |
+| [kintone-design](./skills/kintone-design/) | kintone アプリ設計を DDD 視点で支援（概念マッピング + CQRS/ES 用語警告 + 物理設計チェックリスト + アンチパターン集） |
 | [kintone-app-deploy](./skills/kintone-app-deploy/) | kintone アプリの実装・デプロイ実務プレイブック。被参照→参照のデプロイ順序、破壊的変更の 2 段階デプロイ（delete→deploy→re-add→deploy）、MCP ツール既知バグ（`unique` silent drop）回避策、`GAIA_LO03` / `GAIA_RE07` 切り分けフローを網羅 |
 | [kintone-app-layout](./skills/kintone-app-layout/) | kintone フォームレイアウト実践ガイド。LABEL / HR の `size.width` 明示必須（デフォルト 74/135px で折返し）、インライン HTML/CSS で LABEL を見出し化、MULTI_LINE_TEXT の innerHeight 調整、10 種類のセクション設計テンプレ |
 
@@ -52,7 +52,6 @@ agent-skills/
     ├── ai-estimate/           # AI-driven effort estimation
     ├── kintone-design/        # kintone DDD mapping + physical checklist
     │   ├── SKILL.md
-    │   ├── BENCHMARK.md       # Eval results (with_skill 100% vs without 63.2%)
     │   ├── evals/evals.json
     │   └── references/
     ├── kintone-app-deploy/    # Deploy order, two-phase migrations, MCP gotchas
@@ -142,7 +141,7 @@ The Codex plugin marketplace is defined at:
 .agents/plugins/marketplace.json
 ```
 
-It registers `plugins/agent-skills`, whose plugin manifest points at `./skills/`. That `skills` path is a symlink to the repository-level `skills/` directory, so Agent Skills and the Codex plugin share one source of truth.
+It registers `plugins/agent-skills`, whose plugin manifest points at `./skills/`. That `skills` path is intentionally a symlink to the repository-level `skills/` directory, so Agent Skills and the Codex plugin share one source of truth while the plugin still exposes a conventional in-plugin `skills/` path.
 
 ### Claude Code Plugin
 
