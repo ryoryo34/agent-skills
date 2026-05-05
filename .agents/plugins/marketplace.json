@@ -1,0 +1,20 @@
+{
+  "name": "ryoryo-agent-skills",
+  "interface": {
+    "displayName": "Ryoryo Agent Skills"
+  },
+  "plugins": [
+    {
+      "name": "agent-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/agent-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

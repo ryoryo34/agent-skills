@@ -1,0 +1,35 @@
+{
+  "skill_name": "generalize-and-apply",
+  "evals": [
+    {
+      "id": 0,
+      "name": "game-ui-field-decision",
+      "prompt": "他のゲームを参考にして、pet がいるプロダクトの最初のUIを広いフィールドにすべきか、1画面の部屋にすべきか考えて。具体例から抽象化して、最後に自分たちのUI案へ落として。",
+      "expected_output": "複数の具体例を比較し、共通構造を抽象化し、pet/依頼/鍛造/記憶などの具体UI案へ再適用する。単なる参考ゲーム一覧で終わらない。",
+      "files": [],
+      "assertions": [
+        "Target Question または同等の意思決定対象を明示している",
+        "3つ以上の具体例を比較している",
+        "各具体例から転用可能な lesson を抽出している",
+        "抽象化された principle が複数提示されている",
+        "抽象 principle をユーザー文脈の具体案へ再適用している",
+        "最初に作るべき具体ステップが示されている",
+        "参考例の丸写しではなく、適合条件や caveat に触れている"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "competitor-onboarding-patterns",
+      "prompt": "競合SaaSのオンボーディングを見て、自社プロダクトの初回体験をどう設計すべきか提案して。具体から抽象、そして具体に戻して。",
+      "expected_output": "競合オンボーディングの具体的観察、共通原則、対象プロダクトへの初回体験設計案、検証ステップを含む。",
+      "files": [],
+      "assertions": [
+        "Concrete Examples セクションまたは比較表がある",
+        "観察事実と inferred lesson が区別されている",
+        "共通原則が操作可能な設計ルールとして表現されている",
+        "ユーザーの自社プロダクト向けの Applied Recommendation がある",
+        "First Concrete Steps または検証方法がある"
+      ]
+    }
+  ]
+}
