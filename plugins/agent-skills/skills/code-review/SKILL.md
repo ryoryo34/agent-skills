@@ -1,13 +1,13 @@
 ---
 name: code-review
-description: Multi-agent parallel code review with 5 specialist perspectives (Correctness, Security, Performance, Maintainability, Reliability) + confidence scoring. Each agent reviews independently, findings are filtered by confidence threshold to eliminate false positives, then synthesized into a single prioritized report. Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code", "review my PR", "コードレビュー", "レビューして".
+description: Multi-agent parallel code review with 6 specialist perspectives (Correctness, Security, Performance, Maintainability, Readability, Reliability) + confidence scoring. Each agent reviews independently, findings are filtered by confidence threshold to eliminate false positives, then synthesized into a single prioritized report. Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code", "review my PR", "コードレビュー", "レビューして".
 allowed-tools: Read, Glob, Grep, Bash, Agent, AskUserQuestion
 context: fork
 ---
 
 # Multi-Agent Code Review
 
-Review code changes by dispatching 5 specialist agents in parallel, each focused on a distinct quality dimension. Findings are confidence-scored and filtered to eliminate false positives, then synthesized into a single prioritized report.
+Review code changes by dispatching 6 specialist agents in parallel, each focused on a distinct quality dimension. Findings are confidence-scored and filtered to eliminate false positives, then synthesized into a single prioritized report.
 
 ## Why multi-agent?
 
@@ -62,9 +62,9 @@ Output (keep this for Phase 2 agent dispatch):
 
 ## Phase 2: Parallel Agent Dispatch
 
-Launch 5 specialist agents simultaneously using the Agent tool. Each agent reviews the entire diff from its perspective.
+Launch 6 specialist agents simultaneously using the Agent tool. Each agent reviews the entire diff from its perspective.
 
-**Important**: Dispatch all 5 agents in a single message (parallel tool calls). Do NOT wait for one agent before launching the next.
+**Important**: Dispatch all 6 agents in a single message (parallel tool calls). Do NOT wait for one agent before launching the next.
 
 Each agent receives:
 - The diff command to run (from Phase 1)
@@ -107,7 +107,8 @@ Stay within YOUR dimension. Do not report issues that belong to another agent:
 - Correctness owns: spec alignment, test quality, edge cases, API compatibility
 - Security owns: auth, injection, XSS, secrets, data privacy, PII in logs
 - Performance owns: algorithm complexity, N+1, resource management, scalability, timeouts
-- Maintainability owns: SOLID, YAGNI, DRY, readability, a11y, i18n
+- Maintainability owns: SOLID, YAGNI, DRY, architectural structure, a11y, i18n
+- Readability owns: naming clarity, cognitive load, local code flow, comments, test readability
 - Reliability owns: error handling, resource cleanup, resilience, observability, operability
 
 If an issue spans two dimensions (e.g., PII in logs is both Security and Reliability), report it from YOUR dimension's angle only. The coordinator will merge overlapping findings.
@@ -144,19 +145,20 @@ Be conservative. A false positive wastes the developer's time. If you're not sur
 If no issues are found in your area, output: "No issues detected in [DIMENSION]."
 ```
 
-### The 5 Agents
+### The 6 Agents
 
 | Agent | Reference File | Focus |
 |-------|---------------|-------|
 | Correctness | `references/agents/correctness.md` | Spec alignment, test quality, edge cases, API compatibility |
 | Security | `references/agents/security.md` | Auth, injection, XSS, secrets, data privacy |
 | Performance | `references/agents/performance.md` | Algorithm complexity, N+1, resource management, scalability |
-| Maintainability | `references/agents/maintainability.md` | SOLID, YAGNI, DRY, readability, a11y, i18n |
+| Maintainability | `references/agents/maintainability.md` | SOLID, YAGNI, DRY, architectural structure, a11y, i18n |
+| Readability | `references/agents/readability.md` | Naming clarity, cognitive load, code flow, comments, test readability |
 | Reliability | `references/agents/reliability.md` | Error handling, resource cleanup, resilience, observability, operability |
 
 ## Phase 3: Synthesize
 
-After all 5 agents return, the coordinator (you) processes the results.
+After all 6 agents return, the coordinator (you) processes the results.
 
 ### Step 1: Collect all findings
 
@@ -176,7 +178,8 @@ Aggressively deduplicate to produce a clean, non-redundant report:
    - Input validation / injection / auth / secrets / PII → **Security**
    - Logic bugs / edge cases / test quality / API compat → **Correctness**
    - Complexity / N+1 / resource usage / scalability → **Performance**
-   - SOLID / DRY / readability / naming → **Maintainability**
+   - SOLID / DRY / architectural structure → **Maintainability**
+   - Naming / cognitive load / local code flow / comment clarity → **Readability**
    - Error handling / resource cleanup / resilience / observability → **Reliability**
 
 ### Step 4: Classify severity
@@ -187,7 +190,7 @@ Apply final severity using this guide:
 |----------|-------------|
 | MUST_FIX | Correctness bug, security vulnerability, data loss/corruption risk, spec violation that breaks functionality |
 | SHOULD_FIX | Poor error handling, performance concern, design smell, missing test for critical path, silent failure |
-| NIT | Naming improvement, minor style inconsistency, readability enhancement |
+| NIT | Naming improvement, minor style inconsistency, small readability enhancement |
 
 ## Phase 4: Report
 
@@ -199,7 +202,7 @@ Output the final review report:
 ### Scope
 - Target: [branch / staged / unstaged]
 - Files: [N] changed (+[added] / -[deleted])
-- Agents: Correctness, Security, Performance, Maintainability, Reliability
+- Agents: Correctness, Security, Performance, Maintainability, Readability, Reliability
 
 ### Summary
 - MUST_FIX: [N]
@@ -264,4 +267,4 @@ After the report, present next options via AskUserQuestion:
 - **Actionable feedback**: Every issue must include what should change, not just what is wrong
 - **No false positives**: The confidence threshold exists for a reason. Precision over recall
 - **Context-aware NFR**: Each agent integrates relevant NFR criteria based on detected context (see agent reference files). If context doesn't match, the agent skips those NFR checks
-- **Cost awareness**: 5 parallel agents consume more tokens than a single-pass review. For very small diffs (<20 lines), consider whether a simpler review is more appropriate
+- **Cost awareness**: 6 parallel agents consume more tokens than a single-pass review. For very small diffs (<20 lines), consider whether a simpler review is more appropriate

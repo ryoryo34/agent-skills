@@ -27,10 +27,10 @@ During Phase 2 (Scan), check changed code against relevant anti-patterns. If a p
 |---|------|--------------------|-----------|-----------------|
 | I1 | Copy-Paste Programming | Identical or near-identical logic in multiple locations | 7. DRY | 🟡 Should Fix |
 | I2 | Magic Numbers/Strings | Literal values without named constants or explanation | 7. DRY | 💡 Nit |
-| I3 | Deep Nesting | 4+ levels of indentation in conditionals/loops | 9. Readability | 🟡 Should Fix |
-| I4 | Long Method | Function exceeds 50-80 lines or has 5+ parameters | 9. Readability | 🟡 Should Fix |
+| I3 | Deep Nesting | 4+ levels of indentation in conditionals/loops | Readability | 🟡 Should Fix |
+| I4 | Long Method | Function exceeds 50-80 lines or has 5+ parameters | Readability | 🟡 Should Fix |
 | I5 | Primitive Obsession | Using primitives instead of domain types (e.g., string for email, int for money) | 5. SOLID | 💡 Nit |
-| I6 | Boolean Blindness | Functions taking multiple boolean parameters with unclear meaning | 9. Readability | 💡 Nit |
+| I6 | Boolean Blindness | Functions taking multiple boolean parameters with unclear meaning | Readability | 💡 Nit |
 | I7 | Refactor Without Tests | Structural changes made without corresponding test coverage | 1. Spec-Code Alignment | 🔴 Must Fix |
 
 ## 3. Error Handling Anti-Patterns
@@ -89,7 +89,7 @@ During Phase 2 (Scan), check changed code against relevant anti-patterns. If a p
 
 | # | Name | What It Looks Like | Criterion | Default Severity |
 |---|------|--------------------|-----------|-----------------|
-| T8 | Non-Diagnostic Assertion | Assertions that hide failure cause: `assertTrue(result == 40)` fails with just `false`; use `assertEqual(result, 40)` to reveal `expected 40, got 39` | 9. Readability | 💡 Nit |
+| T8 | Non-Diagnostic Assertion | Assertions that hide failure cause: `assertTrue(result == 40)` fails with just `false`; use `assertEqual(result, 40)` to reveal `expected 40, got 39` | Readability | 💡 Nit |
 | T9 | Wrong Test Size | Test classified as "unit" but performs network/DB/filesystem I/O (should be Small: single process, no I/O). Prefer downsizing via fakes (e.g., in-memory DB) rather than mocks | 4. Cost Efficiency | 🟡 Should Fix |
 | T11 | Test-Implementation Structural Coupling | Test mirrors the internal structure of production code (one test class per production class, test methods map 1:1 to private methods) instead of testing behavioral contracts | 8. Best Practices | 💡 Nit |
 | T12 | Shared Mutable Test State | Tests share mutable state (global variables, class-level fields, singleton state) across test cases without proper setup/teardown isolation | 3. RASIS | 🟡 Should Fix |
@@ -181,7 +181,7 @@ These patterns are applied conditionally based on context detection (see `contex
 | 6. YAGNI | D4, D5, D8 |
 | 7. DRY | I1, I2 |
 | 8. Best Practices | T11 |
-| 9. Readability | I3, I4, I6, T8 |
+| Readability | I3, I4, I6, T8 |
 | NF1. Observability | N1, N2, N3, N4 |
 | NF2. Scalability | N5, N6, N7 |
 | NF3. Accessibility | N8, N9, N10, N11, N12 |

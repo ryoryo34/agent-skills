@@ -8,7 +8,7 @@ This repository is a skills inventory for AI agents. It publishes one self-conta
 |-------|-------------|
 | [dig](./skills/dig/) | Clarify ambiguities in plans with structured questions |
 | [eval-plan](./skills/eval-plan/) | Self-evaluate plans for completeness, consistency, and feasibility (100-point scoring) |
-| [code-review](./skills/code-review/) | 9-criteria + context-adaptive NFR checklist-driven code review |
+| [code-review](./skills/code-review/) | 6-perspective multi-agent code review with confidence scoring and context-adaptive NFR checks |
 | [research](./skills/research/) | Source-quality-guaranteed research with reliability tiers and verification |
 | [generalize-and-apply](./skills/generalize-and-apply/) | 具体例・調査結果・競合パターンから共通原則を抽象化し、プロダクト/設計/意思決定へ再具体化する |
 | [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
@@ -45,7 +45,7 @@ agent-skills/
 │       └── skills/
 │           ├── dig/
 │           ├── eval-plan/
-│           ├── code-review/
+│           ├── code-review/   # 6-perspective code review
 │           ├── research/
 │           ├── generalize-and-apply/
 │           ├── claude-github-setup/
