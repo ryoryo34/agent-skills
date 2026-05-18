@@ -8,7 +8,7 @@
       "name": "agent-skills",
       "source": {
         "source": "local",
-        "path": "./plugins/agent-skills"
+        "path": "./"
       },
       "policy": {
         "installation": "AVAILABLE",

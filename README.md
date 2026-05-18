@@ -1,6 +1,6 @@
 # agent-skills
 
-This repository is a skills inventory for AI agents. It publishes one self-contained plugin package backed by [Agent Skills](https://agentskills.io/specification).
+This repository is a skills inventory for AI agents. It publishes one plugin package rooted at the repository root, backed by [Agent Skills](https://agentskills.io/specification).
 
 ## Skills
 
@@ -30,31 +30,28 @@ This repository is a skills inventory for AI agents. It publishes one self-conta
 ```
 agent-skills/
 ├── .claude-plugin/
-│   └── marketplace.json       # Claude marketplace: points at plugins/agent-skills
+│   ├── marketplace.json       # Claude marketplace
+│   └── plugin.json            # Claude plugin manifest
 ├── .agents/
-│   └── plugins/marketplace.json # Codex marketplace: points at plugins/agent-skills
+│   └── plugins/marketplace.json # Codex marketplace
+├── .codex-plugin/
+│   └── plugin.json            # Codex plugin manifest
 ├── README.md
-├── agents -> plugins/agent-skills/agents
-├── plugins/
-│   └── agent-skills/          # Shared Claude/Codex plugin package
-│       ├── .claude-plugin/plugin.json
-│       ├── .codex-plugin/plugin.json
-│       ├── agents/
-│       │   ├── kintone-architect.md
-│       │   └── kintone-engineer.md
-│       └── skills/
-│           ├── dig/
-│           ├── eval-plan/
-│           ├── code-review/   # 6-perspective code review
-│           ├── research/
-│           ├── generalize-and-apply/
-│           ├── claude-github-setup/
-│           ├── domain-model/
-│           ├── ai-estimate/
-│           ├── kintone-design/
-│           ├── kintone-app-deploy/
-│           └── kintone-app-layout/
-└── skills -> plugins/agent-skills/skills
+├── agents/
+│   ├── kintone-architect.md
+│   └── kintone-engineer.md
+└── skills/
+    ├── dig/
+    ├── eval-plan/
+    ├── code-review/   # 6-perspective code review
+    ├── research/
+    ├── generalize-and-apply/
+    ├── claude-github-setup/
+    ├── domain-model/
+    ├── ai-estimate/
+    ├── kintone-design/
+    ├── kintone-app-deploy/
+    └── kintone-app-layout/
 ```
 
 ## Installation
@@ -66,7 +63,7 @@ This repository supports three installation paths:
 - **GitHub CLI `gh skill`**: install individual Agent Skills into Claude Code, Codex, or other supported agents.
 - **`npx skills add`**: install skills locally or from GitHub without depending on the latest `gh` preview command.
 
-The plugin package at `plugins/agent-skills/` is self-contained: it owns the `skills/` and `agents/` directories so Claude Code and Codex can safely copy it into their plugin caches. The repository-root `skills` and `agents` paths are symlinks kept for `gh skill`, `npx skills`, documentation links, and humans who expect standard top-level Agent Skills paths. The root `.claude-plugin/marketplace.json` and `.agents/plugins/marketplace.json` are thin platform adapters that only point at that plugin package.
+The repository root is the plugin package. It owns the `skills/` and `agents/` directories directly, which keeps the layout compatible with Claude Code, Codex, `gh skill`, `npx skills`, documentation links, and humans browsing the repo.
 
 ### gh skill
 
@@ -126,7 +123,7 @@ npx skills add ryoryo34/agent-skills \
   --global
 ```
 
-Use `--copy` if you want independent copies instead of symlinks.
+Use `--copy` if you want independent copies instead of linked local installs.
 
 ### Codex Plugin
 
@@ -136,11 +133,11 @@ The Codex plugin marketplace is defined at:
 .agents/plugins/marketplace.json
 ```
 
-It registers `plugins/agent-skills`, whose Codex plugin manifest points at `./skills/`. That path lives inside the plugin package so Codex can copy the plugin into its cache and still find every skill.
+It registers this repository root as the plugin package. The Codex plugin manifest at `.codex-plugin/plugin.json` points at `./skills/`.
 
 #### CodexでPluginを追加
 
-Codex はリポジトリルートの `.agents/plugins/marketplace.json` を marketplace として読み込む。ローカルでこのリポジトリを開くと、`plugins/agent-skills` が Codex plugin として表示される。
+Codex はリポジトリルートの `.agents/plugins/marketplace.json` を marketplace として読み込む。ローカルでこのリポジトリを開くと、このリポジトリ自体が Codex plugin として表示される。
 
 1. Codex でこのリポジトリを開く
 2. Plugin / Marketplace 画面で **Ryoryo Agent Skills** を選ぶ
@@ -151,18 +148,18 @@ Codex plugin として認識されるために必要なファイルは以下:
 
 ```bash
 .agents/plugins/marketplace.json
-plugins/agent-skills/.codex-plugin/plugin.json
-plugins/agent-skills/skills/
+.codex-plugin/plugin.json
+skills/
 ```
 
-`marketplace.json` には plugin package への相対パスを登録する:
+`marketplace.json` には repository root への相対パスを登録する:
 
 ```json
 {
   "name": "agent-skills",
   "source": {
     "source": "local",
-    "path": "./plugins/agent-skills"
+    "path": "./"
   },
   "policy": {
     "installation": "AVAILABLE",
@@ -181,7 +178,7 @@ plugins/agent-skills/skills/
 }
 ```
 
-このリポジトリでは `plugins/agent-skills/` が Claude Code と Codex の共有 plugin package なので、スキルを追加するときは `plugins/agent-skills/skills/`（またはルートの `skills` symlink）配下に追加すればよい。
+このリポジトリではルートディレクトリが Claude Code と Codex の共有 plugin package なので、スキルを追加するときは `skills/` 配下に追加すればよい。
 
 ### Claude Code Plugin
 
@@ -191,7 +188,7 @@ The Claude marketplace is defined at:
 .claude-plugin/marketplace.json
 ```
 
-It registers `plugins/agent-skills`, whose Claude plugin manifest lives at `plugins/agent-skills/.claude-plugin/plugin.json`. Claude Code discovers the plugin's default `skills/` and `agents/` directories from that package root.
+It registers this repository root as the plugin package. The Claude plugin manifest lives at `.claude-plugin/plugin.json`, and Claude Code discovers the default `skills/` and `agents/` directories from the root.
 
 ### 1. Marketplaceを追加
 
@@ -230,14 +227,14 @@ claude plugin uninstall agent-skills@ryoryo-agent-skills
 1. Create a new directory under `skills/`
 2. Add a `SKILL.md` with frontmatter (`name`, `description`)
 3. Add `references/` or `scripts/` as needed
-4. Run the validation commands below; plugin consumers discover `plugins/agent-skills/skills` automatically, and the root `skills` symlink keeps `gh skill` and `npx skills` paths ergonomic
+4. Run the validation commands below; plugin consumers, `gh skill`, and `npx skills` all discover `skills/` from the repository root
 
 ## Adding a New Agent
 
 1. Add a new `.md` file under `agents/`
 2. Include frontmatter (`name`, `description` with triggers, `model`, `color`)
 3. Write the agent's system prompt in the body
-4. Run the validation commands below; Claude plugin consumers discover `plugins/agent-skills/agents` automatically, and the root `agents` symlink keeps documentation paths ergonomic
+4. Run the validation commands below; Claude plugin consumers discover `agents/` from the repository root
 
 Agents differ from skills: agents are full orchestrators invoked via the Task tool and can internally reference multiple skills (e.g., `kintone-architect` uses `domain-model` + `kintone-design` together).
 
