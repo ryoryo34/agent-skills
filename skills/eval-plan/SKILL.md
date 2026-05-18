@@ -3,6 +3,7 @@ name: eval-plan
 description: Self-evaluate a plan for completeness, consistency, and feasibility. Scores the plan out of 100 and identifies gaps, contradictions, and oversights. Use after dig, feedback incorporation, or plan revision. Triggers include "eval plan", "evaluate plan", "score plan", "plan review".
 allowed-tools: Read, Glob, Grep, AskUserQuestion
 context: fork
+license: MIT
 ---
 
 # Eval Plan - Plan Self-Evaluation

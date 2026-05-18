@@ -2,6 +2,7 @@
 name: kintone-design
 description: kintone（およびローコード基盤）のアプリ設計を DDD 視点で行う際の、概念マッピング・用語の誤用回避・物理設計の地雷回避を支援する。ドメインモデルから kintone アプリ群への正しい翻訳（Aggregate=アプリ、Materialized View=集計アプリ、Audit Log=履歴アプリ）、サブテーブル / ルックアップ / 関連レコード / 採番の判断基準、CQRS/Event Sourcing と名乗らないための用語警告、プラグイン vs カスタマイズ JS の選択ロジック、そして「ノーコード地獄」予防のガバナンス原則までを網羅する。"kintone", "kintone設計", "kintone アプリ", "サブテーブル", "ルックアップ", "関連レコード", "kintone DDD", "マスタアプリ", "ノーコード設計", "low-code design", "Aggregate を kintone に" 等のキーワードや、kintone 上での業務アプリ設計・リアーキテクト依頼時に必ず発動する。
 allowed-tools: Read, Glob, Grep, Edit, Write, AskUserQuestion
+license: MIT
 ---
 
 # kintone-design — kintone 設計の DDD マッピング + 物理地雷回避

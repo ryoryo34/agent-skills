@@ -3,6 +3,7 @@ name: generalize-and-apply
 description: Transform concrete examples, references, prior conversations, research findings, competitor patterns, screenshots, or user-provided cases into reusable principles, then apply those principles back to a specific product, design, strategy, implementation, or decision. Use when the user asks to learn from examples, compare how others do it, derive an optimal approach, turn specifics into abstractions, or use a "concrete to abstract to concrete" / "1を学び10を悟り100に応用" thinking flow.
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, AskUserQuestion
 context: fork
+license: MIT
 ---
 
 # Generalize And Apply

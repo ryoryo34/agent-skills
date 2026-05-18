@@ -2,6 +2,7 @@
 name: kintone-app-layout
 description: kintone アプリのフォームレイアウトを読みやすく操作しやすく設計するためのプレイブック。LABEL / HR の幅指定、MULTI_LINE_TEXT の innerHeight、インライン HTML/CSS による LABEL 見出し、セクション設計、`kintone-update-form-layout` の layout JSON を扱う。"kintone レイアウト"、"kintone フォーム"、"kintone LABEL 幅"、"kintone update-form-layout"、"kintone セクション"、"kintone 折り返し"、"kintone HR" などで使う。
 allowed-tools: Read, Glob, Grep, Edit, Write, AskUserQuestion
+license: MIT
 ---
 
 # kintone-app-layout — kintone フォームレイアウトの実践ガイド

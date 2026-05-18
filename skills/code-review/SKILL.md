@@ -3,6 +3,7 @@ name: code-review
 description: Multi-agent parallel code review with 6 specialist perspectives (Correctness, Security, Performance, Maintainability, Readability, Reliability) + confidence scoring. Each agent reviews independently, findings are filtered by confidence threshold to eliminate false positives, then synthesized into a single prioritized report. Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code", "review my PR", "コードレビュー", "レビューして".
 allowed-tools: Read, Glob, Grep, Bash, Agent, AskUserQuestion
 context: fork
+license: MIT
 ---
 
 # Multi-Agent Code Review
