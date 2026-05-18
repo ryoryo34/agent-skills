@@ -3,6 +3,7 @@ name: claude-github-setup
 description: Claude Code Action を使った GitHub 自動化（PR自動レビュー、Issue自動実装）を対話的にセットアップする。Triggers include "claude-github-setup", "setup claude github", "Claude GitHub 自動化", "PRレビュー自動化", "claude-code-action setup".
 allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion
 context: fork
+license: MIT
 ---
 
 # Claude GitHub Setup

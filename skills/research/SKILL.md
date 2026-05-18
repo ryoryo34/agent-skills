@@ -3,6 +3,7 @@ name: research
 description: Source-quality-guaranteed research skill. Investigates best practices, academic papers, and real-world case studies with explicit reliability tiers and source verification. Use when the user asks to research, investigate, survey, or look up best practices, papers, technical trends, latest examples, industry patterns, or architectural decisions. Triggers include "research", "investigate", "survey", "look up", "best practice", "what's the latest on", "how do companies do X", "find papers on", "state of the art".
 allowed-tools: WebSearch, WebFetch, AskUserQuestion
 context: fork
+license: MIT
 ---
 
 # Research — Source-Quality-Guaranteed Investigation

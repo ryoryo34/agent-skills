@@ -3,6 +3,7 @@ name: domain-model
 description: システム要件・要望からドメインモデルを対話的に作成する。ユースケースの深掘り、Bounded Context の特定、Aggregate/Entity/Value Object の設計、不変条件の導出までを段階的に行う。"ドメインモデル", "domain model", "ドメインモデリング", "domain modeling", "ドメイン設計", "ドメイン分析" といったキーワードや、システムの業務ルール・ビジネスロジックの設計を依頼された場合に使うこと。要件定義から設計に落とし込む作業全般でも積極的に使う。
 allowed-tools: Read, Glob, Grep, Edit, Write, AskUserQuestion, WebSearch, WebFetch
 context: fork
+license: MIT
 ---
 
 # Domain Model — 対話的ドメインモデル作成

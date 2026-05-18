@@ -2,6 +2,7 @@
 name: kintone-app-deploy
 description: kintone アプリのフィールド追加・変更・削除・デプロイを、kintone REST API / MCP ツール経由で安全に進めるための実務プレイブック。クロスアプリ参照、LOOKUP 撤去、REFERENCE_TABLE 依存、破壊的変更の 2 段階デプロイ、`unique` silent drop、`GAIA_LO03` / `GAIA_RE07` 切り分けを扱う。"kintone デプロイ"、"kintone フィールド削除"、"LOOKUP 設定"、"REFERENCE_TABLE"、"kintone MCP"、"kintone-update-form-fields"、"kintone-deploy-app"、"kintone 2段階デプロイ"、"kintone アプリ構築" などで使う。
 allowed-tools: Read, Glob, Grep, Edit, Write, Bash, AskUserQuestion
+license: MIT
 ---
 
 # kintone-app-deploy — kintone 実装・デプロイ実務プレイブック

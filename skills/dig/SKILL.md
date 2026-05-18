@@ -3,6 +3,7 @@ name: dig
 description: Clarify ambiguities in plans with structured questions. Use when a plan is presented, requirements are unclear, or decisions need to be made before implementation. Triggers include "dig", "clarify plan", "deep dive".
 allowed-tools: Read, Glob, Grep, Edit, AskUserQuestion
 context: fork
+license: MIT
 ---
 
 # Dig - Plan Ambiguity Clarifier
