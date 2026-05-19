@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "Agent Skills",
     "shortDescription": "Reusable skills for research, review, planning, and design.",
-    "longDescription": "A local Codex plugin that exposes the shared agent-skills repository, including research, code review, domain modeling, kintone design, and concrete-to-abstract-to-concrete reasoning workflows.",
+    "longDescription": "A local Codex plugin that exposes the shared agent-skills repository, including research, code review, domain modeling, estimation, and concrete-to-abstract-to-concrete reasoning workflows.",
     "developerName": "ryoryo34",
     "category": "Productivity",
     "capabilities": [

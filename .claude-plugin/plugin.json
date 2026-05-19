@@ -1,6 +1,6 @@
 {
   "name": "agent-skills",
-  "description": "Reusable agent skills and Claude agents for research, review, planning, estimation, domain modeling, and kintone workflows.",
+  "description": "Reusable agent skills and Claude agents for research, review, planning, estimation, and domain modeling workflows.",
   "version": "1.0.0",
   "author": {
     "name": "ryoryo34",
