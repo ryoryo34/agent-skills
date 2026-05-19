@@ -14,16 +14,10 @@ This repository is a skills inventory for AI agents. It publishes one plugin pac
 | [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
 | [domain-model](./skills/domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
 | [ai-estimate](./skills/ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
-| [kintone-design](./skills/kintone-design/) | kintone アプリ設計を DDD 視点で支援（概念マッピング + CQRS/ES 用語警告 + 物理設計チェックリスト + アンチパターン集） |
-| [kintone-app-deploy](./skills/kintone-app-deploy/) | kintone アプリの実装・デプロイ実務プレイブック。被参照→参照のデプロイ順序、破壊的変更の 2 段階デプロイ（delete→deploy→re-add→deploy）、MCP ツール既知バグ（`unique` silent drop）回避策、`GAIA_LO03` / `GAIA_RE07` 切り分けフローを網羅 |
-| [kintone-app-layout](./skills/kintone-app-layout/) | kintone フォームレイアウト実践ガイド。LABEL / HR の `size.width` 明示必須（デフォルト 74/135px で折返し）、インライン HTML/CSS で LABEL を見出し化、MULTI_LINE_TEXT の innerHeight 調整、10 種類のセクション設計テンプレ |
 
 ## Agents
 
-| Agent | Description |
-|-------|-------------|
-| [kintone-architect](./agents/kintone-architect.md) | 要件・ユースケース → ドメインモデル → kintone アプリ構成までをオーケストレートするアーキテクト・エージェント。`domain-model` と `kintone-design` スキルを内部で併用し、5 フェーズ（要件取得 / モデリング / 翻訳 / 物理チェック / 成果物生成）で kintone 固有のアプリ構成を設計する |
-| [kintone-engineer](./agents/kintone-engineer.md) | kintone 実装フェーズ担当エンジニア・エージェント。`kintone-architect` が**設計**したアプリ構成を受け取り、`kintone-app-deploy` + `kintone-app-layout` スキルを併用して**実機に物理化する**。6 フェーズ（入力確認 / デプロイ計画 / フィールド実装 / デプロイ実行 / レイアウト設計 / 検証引き渡し）で、依存順序・silent drop 検証・レイアウト仕上げを毎回安全に実行。architect(設計) と engineer(実装) の明確な役割分担で責務重複を回避 |
+No agents are currently published.
 
 ## Structure
 
@@ -38,8 +32,6 @@ agent-skills/
 │   └── plugin.json            # Codex plugin manifest
 ├── README.md
 ├── agents/
-│   ├── kintone-architect.md
-│   └── kintone-engineer.md
 └── skills/
     ├── dig/
     ├── eval-plan/
@@ -48,10 +40,7 @@ agent-skills/
     ├── generalize-and-apply/
     ├── claude-github-setup/
     ├── domain-model/
-    ├── ai-estimate/
-    ├── kintone-design/
-    ├── kintone-app-deploy/
-    └── kintone-app-layout/
+    └── ai-estimate/
 ```
 
 ## Installation
@@ -78,17 +67,17 @@ Install from GitHub:
 
 ```bash
 # Claude Code, user scope
-gh skill install ryoryo34/agent-skills kintone-design --agent claude-code --scope user
+gh skill install ryoryo34/agent-skills research --agent claude-code --scope user
 
 # Codex, user scope
-gh skill install ryoryo34/agent-skills kintone-design --agent codex --scope user
+gh skill install ryoryo34/agent-skills research --agent codex --scope user
 ```
 
 Install from a local checkout while developing:
 
 ```bash
-gh skill install . kintone-design --from-local --agent claude-code --scope user
-gh skill install . kintone-design --from-local --agent codex --scope user
+gh skill install . research --from-local --agent claude-code --scope user
+gh skill install . research --from-local --agent codex --scope user
 ```
 
 Publish a versioned release after validation passes:
@@ -116,8 +105,8 @@ Install selected skills from GitHub:
 
 ```bash
 npx skills add ryoryo34/agent-skills \
-  --skill kintone-design \
-  --skill kintone-app-deploy \
+  --skill research \
+  --skill code-review \
   --agent claude-code \
   --agent codex \
   --global
@@ -236,7 +225,7 @@ claude plugin uninstall agent-skills@ryoryo-agent-skills
 3. Write the agent's system prompt in the body
 4. Run the validation commands below; Claude plugin consumers discover `agents/` from the repository root
 
-Agents differ from skills: agents are full orchestrators invoked via the Task tool and can internally reference multiple skills (e.g., `kintone-architect` uses `domain-model` + `kintone-design` together).
+Agents differ from skills: agents are full orchestrators invoked via the Task tool and can internally reference multiple skills.
 
 ## Validation
 
