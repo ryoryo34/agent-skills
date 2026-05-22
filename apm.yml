@@ -17,9 +17,6 @@ dependencies:
     - ./claude-github-setup
     - ./domain-model
     - ./ai-estimate
-    - ./kintone-design
-    - ./kintone-app-deploy
-    - ./kintone-app-layout
 
 scripts:
   postinstall: "echo 'agent-skills installed via APM; restart your agent session to pick up new skills.'"
