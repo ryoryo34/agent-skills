@@ -6,14 +6,14 @@ This repository is a skills inventory for AI agents. It publishes one plugin pac
 
 | Skill | Description |
 |-------|-------------|
-| [dig](./skills/dig/) | Clarify ambiguities in plans with structured questions |
-| [eval-plan](./skills/eval-plan/) | Self-evaluate plans for completeness, consistency, and feasibility (100-point scoring) |
-| [code-review](./skills/code-review/) | 6-perspective multi-agent code review with confidence scoring and context-adaptive NFR checks |
-| [research](./skills/research/) | Source-quality-guaranteed research with reliability tiers and verification |
-| [generalize-and-apply](./skills/generalize-and-apply/) | 具体例・調査結果・競合パターンから共通原則を抽象化し、プロダクト/設計/意思決定へ再具体化する |
-| [claude-github-setup](./skills/claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
-| [domain-model](./skills/domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
-| [ai-estimate](./skills/ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
+| [dig](./dig/) | Clarify ambiguities in plans with structured questions |
+| [eval-plan](./eval-plan/) | Self-evaluate plans for completeness, consistency, and feasibility (100-point scoring) |
+| [code-review](./code-review/) | 6-perspective multi-agent code review with confidence scoring and context-adaptive NFR checks |
+| [research](./research/) | Source-quality-guaranteed research with reliability tiers and verification |
+| [generalize-and-apply](./generalize-and-apply/) | 具体例・調査結果・競合パターンから共通原則を抽象化し、プロダクト/設計/意思決定へ再具体化する |
+| [claude-github-setup](./claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
+| [domain-model](./domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
+| [ai-estimate](./ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
 
 ## Agents
 
@@ -30,29 +30,66 @@ agent-skills/
 │   └── plugins/marketplace.json # Codex marketplace
 ├── .codex-plugin/
 │   └── plugin.json            # Codex plugin manifest
+├── apm.yml                    # APM local development manifest
 ├── README.md
-├── agents/
-└── skills/
-    ├── dig/
-    ├── eval-plan/
-    ├── code-review/   # 6-perspective code review
-    ├── research/
-    ├── generalize-and-apply/
-    ├── claude-github-setup/
-    ├── domain-model/
-    └── ai-estimate/
+├── ai-estimate/
+├── claude-github-setup/
+├── code-review/       # 6-perspective code review
+├── dig/
+├── domain-model/
+├── eval-plan/
+├── generalize-and-apply/
+└── research/
 ```
 
 ## Installation
 
-This repository supports three installation paths:
+This repository supports these installation paths:
 
+- **APM (Agent Package Manager)**: install individual skills from GitHub, or install all local skills from `apm.yml` while developing.
 - **Claude Code Plugin**: install the whole Claude plugin marketplace, including Claude-only agents.
-- **Codex Plugin**: install the local Codex plugin marketplace backed by the shared `skills/` directory.
+- **Codex Plugin**: install the local Codex plugin marketplace backed by the root skill directories.
 - **GitHub CLI `gh skill`**: install individual Agent Skills into Claude Code, Codex, or other supported agents.
 - **`npx skills add`**: install skills locally or from GitHub without depending on the latest `gh` preview command.
 
-The repository root is the plugin package. It owns the `skills/` and `agents/` directories directly, which keeps the layout compatible with Claude Code, Codex, `gh skill`, `npx skills`, documentation links, and humans browsing the repo.
+The repository root is the plugin package. Each root-level skill directory is independently installable, which keeps the layout convenient for APM, Claude Code, Codex, `gh skill`, `npx skills`, documentation links, and humans browsing the repo.
+
+### APM
+
+Each root-level skill directory is a standalone Agent Skill with its own `SKILL.md`, optional `references/`, optional `scripts/`, optional `assets/`, and optional `evals/`.
+
+Install an individual skill from GitHub:
+
+```bash
+# Global / user scope
+apm install -g ryoryo34/agent-skills/research
+
+# Pin to a tag
+apm install -g ryoryo34/agent-skills/research#v1.0.0
+```
+
+Add selected skills to another project's `apm.yml`:
+
+```yaml
+targets:
+  - claude
+  - codex
+
+dependencies:
+  apm:
+    - ryoryo34/agent-skills/research
+    - ryoryo34/agent-skills/code-review
+```
+
+Install all local skills from this checkout while developing:
+
+```bash
+cd ~/scraps/agent-skills
+apm install
+apm run verify
+```
+
+`apm install` reads this repository's `apm.yml` and installs the local `./<skill-name>` packages for the declared targets. Commit `apm.lock.yaml` after running `apm install` when you want teammates or CI to resolve the same package versions.
 
 ### gh skill
 
@@ -122,7 +159,7 @@ The Codex plugin marketplace is defined at:
 .agents/plugins/marketplace.json
 ```
 
-It registers this repository root as the plugin package. The Codex plugin manifest at `.codex-plugin/plugin.json` points at `./skills/`.
+It registers this repository root as the plugin package. The Codex plugin manifest at `.codex-plugin/plugin.json` points at the repository root and exposes directories that contain `SKILL.md`.
 
 #### CodexでPluginを追加
 
@@ -138,7 +175,7 @@ Codex plugin として認識されるために必要なファイルは以下:
 ```bash
 .agents/plugins/marketplace.json
 .codex-plugin/plugin.json
-skills/
+<skill-name>/SKILL.md
 ```
 
 `marketplace.json` には repository root への相対パスを登録する:
@@ -158,16 +195,16 @@ skills/
 }
 ```
 
-`plugin.json` 側では、Codex に公開する skills directory を指定する:
+`plugin.json` 側では、Codex に公開する探索ルートを指定する:
 
 ```json
 {
   "name": "agent-skills",
-  "skills": "./skills/"
+  "skills": "./"
 }
 ```
 
-このリポジトリではルートディレクトリが Claude Code と Codex の共有 plugin package なので、スキルを追加するときは `skills/` 配下に追加すればよい。
+このリポジトリではルートディレクトリが Claude Code と Codex の共有 plugin package なので、スキルを追加するときはリポジトリ直下に `<skill-name>/SKILL.md` を追加すればよい。
 
 ### Claude Code Plugin
 
@@ -177,7 +214,7 @@ The Claude marketplace is defined at:
 .claude-plugin/marketplace.json
 ```
 
-It registers this repository root as the plugin package. The Claude plugin manifest lives at `.claude-plugin/plugin.json`, and Claude Code discovers the default `skills/` and `agents/` directories from the root.
+It registers this repository root as the plugin package. The Claude plugin manifest lives at `.claude-plugin/plugin.json`; skills are kept as root-level directories to match the package paths.
 
 ### 1. Marketplaceを追加
 
@@ -213,10 +250,11 @@ claude plugin uninstall agent-skills@ryoryo-agent-skills
 
 ## Adding a New Skill
 
-1. Create a new directory under `skills/`
+1. Create a new skill directory at the repository root
 2. Add a `SKILL.md` with frontmatter (`name`, `description`)
 3. Add `references/` or `scripts/` as needed
-4. Run the validation commands below; plugin consumers, `gh skill`, and `npx skills` all discover `skills/` from the repository root
+4. Add the local path to `dependencies.apm` in `apm.yml` if the skill should be installed by the local APM bundle
+5. Run the validation commands below; plugin consumers, APM, `gh skill`, and `npx skills` all discover root-level skill directories from the repository root
 
 ## Adding a New Agent
 
@@ -230,6 +268,7 @@ Agents differ from skills: agents are full orchestrators invoked via the Task to
 ## Validation
 
 ```bash
+apm install --dry-run
 claude plugin validate .
 npx skills add . --list
 gh skill publish --dry-run
@@ -238,6 +277,7 @@ gh skill publish --dry-run
 ## Reference
 
 - [Agent Skills Specification](https://agentskills.io/specification)
+- [APM (Agent Package Manager)](https://github.com/apm-sh/apm)
 - [Anthropic's Skills Repository](https://github.com/anthropics/skills)
 - [OpenAI's Skills Repository](https://github.com/openai/skills)
 - [fumiya-kume/claude-code - dig command](https://github.com/fumiya-kume/claude-code/blob/master/dig/commands/dig.md) — dig スキルの参考元

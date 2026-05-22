@@ -82,7 +82,7 @@ AskUserQuestion（multiSelect: true）でセットアップするモジュール
 
 ### Step 3.1: ベース基準の読み取り
 
-このスキルと同じリポジトリ内の `skills/code-review/references/review-criteria.md` を Read で読み取る。
+このスキルと同じリポジトリ内の `code-review/references/review-criteria.md` を Read で読み取る。
 
 読み取った9基準を以下の形式に整形し、`{{BASE_REVIEW_CRITERIA}}` の置換値とする:
 
@@ -285,5 +285,5 @@ claude.yml を選択した場合は以下も追加:
 ## 注意事項
 
 - このスキルは **Claude Code Action（anthropics/claude-code-action）専用**
-- レビュープロンプトのベース基準は `skills/code-review/references/review-criteria.md` に依存（ファイルがない場合はデフォルト基準を使用）
+- レビュープロンプトのベース基準は `code-review/references/review-criteria.md` に依存（ファイルがない場合はデフォルト基準を使用）
 - テンプレートの中身を更新する場合は `references/` 配下のファイルを直接編集すること

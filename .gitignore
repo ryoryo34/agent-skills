@@ -1,2 +1,6 @@
 docs/plans/
 *-workspace/
+apm_modules/
+.claude/skills/
+.agents/skills/
+results/

@@ -1,0 +1,24 @@
+name: agent-skills
+version: 1.0.0
+
+# Declare targets explicitly so APM installs reproducibly regardless of marker
+# directories in the checkout.
+targets:
+  - claude
+  - codex
+
+dependencies:
+  apm:
+    - ./dig
+    - ./eval-plan
+    - ./code-review
+    - ./research
+    - ./generalize-and-apply
+    - ./claude-github-setup
+    - ./domain-model
+    - ./ai-estimate
+
+scripts:
+  postinstall: "echo 'agent-skills installed via APM; restart your agent session to pick up new skills.'"
+  verify: "find .claude/skills .agents/skills -maxdepth 2 -name SKILL.md -print 2>/dev/null | sort"
+  audit: "apm audit"
