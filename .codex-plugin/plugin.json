@@ -15,7 +15,7 @@
     "codex",
     "skills"
   ],
-  "skills": "./skills/",
+  "skills": "./",
   "interface": {
     "displayName": "Agent Skills",
     "shortDescription": "Reusable skills for research, review, planning, and design.",

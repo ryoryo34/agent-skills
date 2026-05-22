@@ -262,7 +262,7 @@ Phase 2-3 を経て Phase 5 出力:
 - Kurrent, "Event Sourcing vs Audit Log"
 - Cybozu DevNet, "kintoneにおけるデータ設計の基本"
 - R3 Institute, "データベースとしての kintone"
-- `skills/kintone-design/references/sources.md` の全 39 件
+- `kintone-design/references/sources.md` の全 39 件
 
 ## 最終チェック（成果物出力前）
 
