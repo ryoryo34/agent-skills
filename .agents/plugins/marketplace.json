@@ -11,7 +11,7 @@
         "path": "./"
       },
       "policy": {
-        "installation": "AVAILABLE",
+        "installation": "RECOMMENDED",
         "authentication": "ON_INSTALL"
       },
       "category": "Productivity"
