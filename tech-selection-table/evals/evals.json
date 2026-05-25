@@ -1,0 +1,55 @@
+{
+  "skill_name": "tech-selection-table",
+  "evals": [
+    {
+      "id": 1,
+      "name": "card-management-saas",
+      "prompt": "kintone と連携できる名刺管理サービスを3社くらい比較したい。営業現場で使うので、企業の名寄せ精度とかタグ管理も気になる。比較表を作って（スプレッドシートに貼りたい）。",
+      "expected_output": "必須6項目（サービス名・提供会社名・公式URL・費用・スマホ対応・API連携）＋営業現場観点の追加項目（名寄せ、タグ管理、kintone連携詳細など）が入った転置型 CSV ファイル。3社が含まれる。先頭セルが「比較項目」。UTF-8 with BOM、CRLF。セル内改行・カンマ含みセルが正しくダブルクォートされている。情報収集は WebFetch ではなく devtool MCP で公式サイトを実際に開いてスクレイピングしている。",
+      "files": [],
+      "assertions": [
+        {"text": "出力に .csv ファイル（拡張子 .csv）が含まれる"},
+        {"text": "CSV のヘッダー行（1行目）の先頭セルが「比較項目」である"},
+        {"text": "CSV に必須6項目（提供会社名・公式URL・費用・スマホ対応・API連携）の行が全て含まれる"},
+        {"text": "CSV のヘッダー行にサービス名が3つ（または3列）含まれる"},
+        {"text": "費用欄に「月額」「初期費用」「最小ユーザー数」「契約方法」のうち3つ以上の語が出現する"},
+        {"text": "値の凡例として ◯ / △ / × / 不明 のいずれかが少なくとも3セル以上で使われている"},
+        {"text": "情報収集ログに devtool MCP の navigate_page または mcp__chrome-devtools__navigate_page の呼び出しが含まれる（WebFetch 単独で完結していない）"},
+        {"text": "営業現場観点の追加項目として「名寄せ」「タグ管理」「kintone連携」のいずれか2つ以上が比較項目に含まれる"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ai-ocr-vague",
+      "prompt": "AI-OCR を導入したいんだけど、どれがいいかわからない。比較表作って。",
+      "expected_output": "曖昧な要望なので、利用シナリオ（帳票種類、kintone 連携要否、月間スキャン数）をヒアリング → 候補3-5社を提案 → 承認後に転置型 CSV を出力。必須6項目＋OCR領域の追加項目（精度・対応言語・手書き対応など）が含まれる。WebSearch で公式 URL を見つけたあと、各サービスを devtool MCP でスクレイピングして料金・API ページまで巡回している。CSV のクォーティング規則を守っている。",
+      "files": [],
+      "assertions": [
+        {"text": "プロンプトが曖昧なため、AskUserQuestion または同等のヒアリングが少なくとも1回行われた形跡がある"},
+        {"text": "候補サービスとして AI-OCR 領域の SaaS が3〜5社提案される"},
+        {"text": "CSV のヘッダー行の先頭セルが「比較項目」である"},
+        {"text": "CSV に必須6項目（提供会社名・公式URL・費用・スマホ対応・API連携）が全て含まれる"},
+        {"text": "OCR 領域の追加項目として「精度」「対応言語」「手書き対応」「kintone連携」のうち2つ以上が比較項目に含まれる"},
+        {"text": "セル内に「,」を含む値が出現する場合、その値はダブルクォートで囲まれている"},
+        {"text": "情報収集ログに devtool MCP の navigate_page 呼び出しが含まれる"}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "bi-tool-with-sheets-export",
+      "prompt": "中小企業向けの BI ツールを4つ比較したい。Tableau、Looker Studio、Power BI、Domo で。CSV で出力した上で、Google Sheets にも書き込みたい。スプレッドシート ID は 1NiQdpB11xSnhKIeJxi-G4wL2-TT9SwDQIYa1QoLqI8o の「比較表」シートに上書きで。",
+      "expected_output": "必須6項目＋BI領域の追加項目（データソース・可視化種類・更新頻度など）の比較表を CSV ファイルで出力（UTF-8 BOM・CRLF・正しいクォーティング）。各 BI ツールの公式サイトを devtool MCP でスクレイピングして料金表まで取得している。さらに Google Sheets API または環境に用意された Sheets 操作ツールで指定シートに上書き書き込みする手順またはコマンド実行が行われる（CSV を 2次元配列に変換 → values.update 相当のフロー）。",
+      "files": [],
+      "assertions": [
+        {"text": "CSV のヘッダー行に「Tableau」「Looker Studio」「Power BI」「Domo」の4社が全て含まれる"},
+        {"text": "CSV のヘッダー行の先頭セルが「比較項目」である"},
+        {"text": "CSV に必須6項目（提供会社名・公式URL・費用・スマホ対応・API連携）が全て含まれる"},
+        {"text": "BI 領域の追加項目として「データソース」「可視化」「更新頻度」「権限」のうち2つ以上が比較項目に含まれる"},
+        {"text": "Google Sheets API の values.update 相当の処理、または Sheets 操作ツールへの書き込み実行ログが含まれる"},
+        {"text": "Sheets 書き込みコマンドにスプレッドシート ID 「1NiQdpB11xSnhKIeJxi-G4wL2-TT9SwDQIYa1QoLqI8o」が含まれる"},
+        {"text": "Sheets 書き込みコマンドの range にシート名「比較表」が含まれる"},
+        {"text": "情報収集ログに devtool MCP の navigate_page 呼び出しが含まれる（少なくとも各サービスにつき1回以上）"}
+      ]
+    }
+  ]
+}
