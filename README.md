@@ -88,7 +88,8 @@ Codex marketplace policy marks this plugin as `RECOMMENDED`.
 1. Create a new directory at the repository root
 2. Add a `SKILL.md` with frontmatter (`name`, `description`)
 3. Add `references/`, `scripts/`, `assets/`, or `evals/` as needed
-4. Run the validation commands below
+4. **Bump the version** in `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json`, and `apm.yml` — installed copies only pick up changes via `claude plugin update` when the version increases (see `CLAUDE.md` for the semver rule)
+5. Run the validation commands below
 
 ## Validation
 

@@ -1,5 +1,5 @@
 name: agent-skills
-version: 1.0.0
+version: 1.1.0
 
 # Declare targets explicitly so APM installs reproducibly regardless of marker
 # directories in the checkout.
