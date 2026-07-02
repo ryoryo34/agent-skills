@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Multi-agent parallel code review with 6 specialist perspectives (Correctness, Security, Performance, Maintainability, Readability, Reliability) + confidence scoring. Each agent reviews independently, findings are filtered by confidence threshold to eliminate false positives, then synthesized into a single prioritized report. Use when reviewing code changes, PRs, or diffs. Triggers include "code-review", "review this", "review my code", "review my PR", "コードレビュー", "レビューして".
+description: Multi-agent parallel code review with 6 specialist perspectives (Correctness, Security, Performance, Maintainability, Readability, Reliability) + confidence scoring. Each agent reviews independently, findings are filtered by confidence threshold to eliminate false positives, then synthesized into a single prioritized report. Use for DEEP, thorough reviews of large or risky changes — when the user asks for "multi-agent review", "deep review", "thorough review", "6-perspective review", "マルチエージェントレビュー", "精密レビュー", "徹底レビュー", "6視点レビュー", or explicitly names this skill ("agent-skills code-review"). Do NOT trigger on casual review requests like "レビューして" or "review this" — those should use the built-in /code-review, which is faster and cheaper for everyday diffs.
 allowed-tools: Read, Glob, Grep, Bash, Agent, AskUserQuestion
 context: fork
 license: MIT

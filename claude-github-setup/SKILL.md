@@ -251,7 +251,7 @@ AskUserQuestion で追加のレビュー観点をユーザーに聞く:
 
 1. ターミナルで `claude` を実行
 2. `/login` コマンドでログイン（未ログインの場合）
-3. `claude oauth token` でトークンを取得してコピー
+3. `claude setup-token` でトークンを取得してコピー（要 Claude サブスクリプション）
 
 詳細: https://docs.anthropic.com/en/docs/claude-code/github-actions
 ```

@@ -1,0 +1,23 @@
+{
+  "skill_name": "dig",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "次の計画のあいまいな点を dig して:\n\n# 通知機能追加計画\n- ユーザーへのリアルタイム通知を実装する\n- 通知はバッチ処理で1日1回まとめて送信する\n- 通知チャネルは未定（メール or アプリ内 or 両方）\n- 既読管理を行う",
+      "expected_output": "「リアルタイム通知」と「バッチ処理で1日1回」の矛盾が Detected Issues として明示的に検出され、AskUserQuestion で仮説付き（(Hypothesized) サフィックス）の選択肢が提示される。矛盾解消が通知チャネル選択より先（上流）に来ること。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "この API 設計計画を dig で明確化して:\n\n# 外部公開 API 計画\n- REST API を公開する\n- 認証を実装する\n- レートリミットを設ける\n- レスポンス形式は JSON",
+      "expected_output": "認証方式（APIキー/OAuth/JWT等）、レートリミットの粒度・上限値、バージョニング方針などの未定義項目が Product Spec / API カテゴリで特定され、各質問が仮説先行（Based on ... I think ...）+ 2-4個の pros/cons 付き選択肢で AskUserQuestion される。回答後に Decisions 表と Impact Chain が出力される。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "dig して: DB を選定し、その上で ORM を選び、マイグレーション戦略とスキーマ設計を決めたい。候補は PostgreSQL/MySQL/SQLite、ORM は Prisma/Drizzle/TypeORM を考えている。",
+      "expected_output": "Decision Dependency Map で DB選定 → ORM選定 → マイグレーション/スキーマ の依存関係が明示され、質問が上流（DB選定）から順に行われる。DB の回答によって下流の選択肢が絞り込まれる（Impact Chain で propagate される）こと。全部を一度に並列で聞かないこと。",
+      "files": []
+    }
+  ]
+}
