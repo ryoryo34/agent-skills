@@ -168,6 +168,6 @@ If the user asks whether to add a field or room to a pet/game UI:
 
 - Concrete: Animal Crossing, Ameba Pigg, Habbo, Cozy Grove, and Webkinz show that spatial ownership, visible characters, and object-based actions create attachment.
 - Abstract: Strong sandbox UI often makes the field itself the menu, puts characters before information, gives locations semantic meaning, accumulates small visible changes, and frames dailies as events.
-- Concrete: A project like Doppelganger Forge should start with a one-screen "Memory Forge Room" where the pet, request board, forge, memory shelf, gate, and doppelganger are clickable world objects.
+- Concrete: A virtual-pet app being designed should start with a one-screen "room" where the pet, task board, storage shelf, and door are clickable world objects, instead of a menu-first navigation structure.
 
 This example is illustrative, not a fixed template. Reuse the reasoning pattern, not the exact answer.
