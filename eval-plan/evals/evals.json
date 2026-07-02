@@ -1,0 +1,23 @@
+{
+  "skill_name": "eval-plan",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "この計画を評価して:\n\n# CSV エクスポート機能追加\n## 実装\n- `src/export/csv.ts` に `exportToCsv(rows: Record<string,string>[]): string` を新規作成\n- 既存の `DataTable` コンポーネントにエクスポートボタンを追加（`src/components/DataTable.tsx`）\n- エッジケース: 空配列は空文字列を返す、セル内のカンマ・改行・ダブルクォートは RFC 4180 準拠でエスケープ\n## テスト\n- `csv.test.ts` にユニットテスト（正常系・空配列・エスケープ3種）\n## リスク\n- 大量行（10万行超）はメモリ懸念 → 5万行超で警告表示し将来ストリーミング化",
+      "expected_output": "100点満点の評価レポートが規定フォーマット（criterion 別テーブル + プログレスバー + Grade）で出力される。この計画は具体的でエッジケース・リスクも扱っているため 75点以上（Grade A/B 帯）となり、指摘は少数の Should Fix / 💡 程度に収まること。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "次の計画を採点して:\n\n# セッション管理刷新\n- ステートレス化のため JWT に全面移行する\n- セッションは Redis に保存し、サーバー側で即時失効できるようにする\n- ログアウト時はサーバー側でトークンを無効化する\n- 実装は `auth/` 配下を修正",
+      "expected_output": "「ステートレス JWT 全面移行」と「Redis セッション保存・サーバー側即時失効」の矛盾が Consistency で検出されて減点され、🔴 または 🟡 の Must Fix として指摘される。総合スコアが 75 未満なら /dig の実行推奨が明記されること。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "eval plan:\n\n# パフォーマンス改善計画\n- アプリを速くする\n- ボトルネックを調査する\n- キャッシュを導入する\n- 完了後にリリース",
+      "expected_output": "Specificity と Feasibility が低スコア（各 12 点以下目安）になり、対象箇所・測定基準・キャッシュ対象などの不足が具体的な Next Actions（Effort と +pts 付き）として列挙される。総合 75 未満のため /dig 実行の推奨が含まれること。",
+      "files": []
+    }
+  ]
+}

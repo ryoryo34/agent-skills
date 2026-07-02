@@ -1,0 +1,23 @@
+{
+  "skill_name": "code-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "マルチエージェントレビューして。対象はこの diff:\n\n```diff\n+app.get('/users/search', async (req, res) => {\n+  const q = req.query.q;\n+  const rows = await db.query(`SELECT * FROM users WHERE name LIKE '%${q}%'`);\n+  for (const row of rows) {\n+    row.orders = await db.query(`SELECT * FROM orders WHERE user_id = ${row.id}`);\n+  }\n+  res.json(rows);\n+});\n```",
+      "expected_output": "6 エージェントが単一メッセージで並列ディスパッチされ、SQL インジェクション（Security）が MUST_FIX、N+1 クエリ（Performance）が MUST_FIX または SHOULD_FIX として報告される。confidence 80 以上のみが最終レポートに残り、MUST_FIX には Before/After コード例が付くこと。2箇所の SQL インジェクション（LIKE 句と WHERE 句）は1つの finding に集約されること。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "この小さな diff をレビューして（agent-skills の code-review スキルで）:\n\n```diff\n-const TIMEOUT_MS = 3000;\n+const TIMEOUT_MS = 5000;\n```",
+      "expected_output": "20行未満の極小 diff のため、6 エージェント並列がコストに見合わない旨の言及（もしくは簡易レビューの提案）があること。重大な問題の捏造をせず、「No issues detected」相当の結論か、根拠のある軽微な指摘のみに留まること。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "精密レビューをお願い。対象 diff:\n\n```diff\n+async function syncInventory(items) {\n+  const results = [];\n+  for (const item of items) {\n+    try {\n+      const res = await fetch(`https://api.example.com/stock/${item.sku}`);\n+      const data = await res.json();\n+      results.push(data);\n+    } catch (e) {}\n+  }\n+  return results;\n+}\n```",
+      "expected_output": "空の catch ブロック（silent failure）が Reliability から、fetch のタイムアウト/リトライ欠如が Performance または Reliability から報告される。所有権マップに従い同一問題が複数次元から重複報告されないこと。severity 別（MUST_FIX/SHOULD_FIX/NIT）にグルーピングされ、Verdict（Ready to Merge / Needs Attention / Needs Work）が出力されること。",
+      "files": []
+    }
+  ]
+}
