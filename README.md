@@ -15,6 +15,7 @@ This repository is a skills inventory for AI agents. It publishes one plugin pac
 | [domain-model](./domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
 | [ai-estimate](./ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
 | [tech-selection-table](./tech-selection-table/) | 技術選定・サービス比較のための転置型 CSV 比較表を作成（公式サイト調査 + 費用/API/スマホ対応 + 追加観点） |
+| [ontology](./ontology/) | コードベースの知識グラフ（エンティティ + 型付き関係 + 制約）を `.claude/ontology/` に構築し、CLAUDE.md 注入で以降のセッションでも自動維持 |
 
 ## Agents
 
@@ -36,6 +37,7 @@ agent-skills/
 ├── domain-model/
 ├── eval-plan/
 ├── generalize-and-apply/
+├── ontology/
 ├── research/
 └── tech-selection-table/
 ```
