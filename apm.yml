@@ -18,6 +18,7 @@ dependencies:
     - ./domain-model
     - ./ai-estimate
     - ./tech-selection-table
+    - ./ontology
 
 scripts:
   postinstall: "echo 'agent-skills installed via APM; restart your agent session to pick up new skills.'"

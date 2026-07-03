@@ -1,0 +1,53 @@
+{
+  "skill_name": "ontology",
+  "evals": [
+    {
+      "id": 0,
+      "name": "bootstrap-fresh",
+      "prompt": "このプロジェクトの構造をオントロジーとして整備して。今後のセッションでも古くならずに維持され続けるようにしたい。",
+      "expected_output": ".claude/ontology/ に README.md / entities.yaml / relations.yaml / constraints.md が生成され、CLAUDE.md にマーカー付きの参照・更新ルールが注入される。エンティティはモジュール/サービス粒度で、関係には evidence が付く。",
+      "files": ["fixtures/shopfast"],
+      "assertions": [
+        "ontology-files-complete: .claude/ontology/ に README.md, entities.yaml, relations.yaml, constraints.md の4ファイルが揃っている",
+        "entities-schema-valid: entities.yaml が有効な YAML で、全エンティティに id / class / summary がある",
+        "relations-referential-integrity: relations.yaml の from/to がすべて entities.yaml に定義された id である",
+        "relations-evidence-exists: すべての関係に evidence があり、そのパスがリポジトリに実在する",
+        "claude-md-injected: CLAUDE.md に ontology マーカーセクションが1つだけあり、「同セッション内で更新する」ルールを含む",
+        "granularity-module-level: ファイル/関数単位のエンティティが無く、エンティティ数が25以下",
+        "sync-commit-recorded: README.md の last_synced_commit がリポジトリの実在コミット SHA である",
+        "core-architecture-captured: order-service→payment-service の同期呼び出しと、決済完了イベントの emit/consume 構造がグラフに表現されている"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "update-drift",
+      "prompt": "コードが結構変わったから、オントロジーを最新の状態に同期して。",
+      "expected_output": "last_synced_commit 以降の差分（notification-service の改名、inventory-service の追加、新しい呼び出し関係）が entities.yaml / relations.yaml に反映され、旧エントリは削除され、last_synced_commit が HEAD に更新される。",
+      "files": ["fixtures/shopfast-drifted"],
+      "assertions": [
+        "rename-reflected: notification-service が alert-service に付け替えられ、旧 id がオントロジー内のどこにも残っていない",
+        "new-service-added: inventory-service のエンティティが追加されている",
+        "new-relation-added: order-service→inventory-service の calls 関係が evidence 付きで追加されている",
+        "slack-integration-reflected: alert-service の Slack 通知（slack-client.ts）がエンティティまたは関係として反映されている",
+        "sync-commit-advanced: last_synced_commit が同期前の値から HEAD（またはそれに近い最新コミット）に更新されている",
+        "relations-referential-integrity: 更新後も relations.yaml の from/to がすべて entities.yaml の id を参照している",
+        "claude-md-preserved: CLAUDE.md の ontology マーカーセクションが維持されている（重複や消失がない）"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "bootstrap-implicit",
+      "prompt": "新しく入ったメンバーがすぐ全体像を掴めるように、このリポジトリのサービス構成とか依存関係を整理した資料を作っておいてほしい。あとコードが変わってもその資料が古くならない仕組みにしたい。",
+      "expected_output": "「オントロジー」という語を使わない依頼でも、.claude/ontology/ の構築と CLAUDE.md への更新ルール注入が行われる。",
+      "files": ["fixtures/shopfast"],
+      "assertions": [
+        "structured-graph-created: サービス構成と依存関係が構造化データ（entities.yaml / relations.yaml 相当）として作成されている（散文ドキュメントだけではない）",
+        "ontology-files-complete: .claude/ontology/ に README.md, entities.yaml, relations.yaml, constraints.md の4ファイルが揃っている",
+        "relations-referential-integrity: relations.yaml の from/to がすべて entities.yaml に定義された id である",
+        "staleness-mechanism-injected: 毎セッション自動ロードされる場所（CLAUDE.md）に「構造変更をしたら同セッション内で資料も更新する」ルールが注入されている",
+        "granularity-module-level: ファイル/関数単位のエンティティが無く、エンティティ数が25以下",
+        "relations-evidence-exists: すべての関係に evidence があり、そのパスがリポジトリに実在する"
+      ]
+    }
+  ]
+}
