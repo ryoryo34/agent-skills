@@ -16,6 +16,7 @@ This repository is a skills inventory for AI agents. It publishes one plugin pac
 | [ai-estimate](./ai-estimate/) | AI駆動開発の工数見積もり（ハイブリッドアジャイル + エピック分解 + Sprint計画 + 損益分析） |
 | [tech-selection-table](./tech-selection-table/) | 技術選定・サービス比較のための転置型 CSV 比較表を作成（公式サイト調査 + 費用/API/スマホ対応 + 追加観点） |
 | [ontology](./ontology/) | コードベースの知識グラフ（エンティティ + 型付き関係 + 制約）を `.claude/ontology/` に構築し、CLAUDE.md 注入で以降のセッションでも自動維持 |
+| [project-setup](./project-setup/) | プロジェクトに AI エージェント作業環境（AGENTS.md 正本 + CLAUDE.md import + .claude/rules + Codex symlink 連携 + 必読導線）を対話的にセットアップ。既存構成の乖離・壊れ参照も検出・修復 |
 
 ## Agents
 
@@ -38,6 +39,7 @@ agent-skills/
 ├── eval-plan/
 ├── generalize-and-apply/
 ├── ontology/
+├── project-setup/
 ├── research/
 └── tech-selection-table/
 ```

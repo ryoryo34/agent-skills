@@ -1,5 +1,5 @@
 name: agent-skills
-version: 1.1.0
+version: 1.2.0
 
 # Declare targets explicitly so APM installs reproducibly regardless of marker
 # directories in the checkout.
@@ -19,6 +19,7 @@ dependencies:
     - ./ai-estimate
     - ./tech-selection-table
     - ./ontology
+    - ./project-setup
 
 scripts:
   postinstall: "echo 'agent-skills installed via APM; restart your agent session to pick up new skills.'"
