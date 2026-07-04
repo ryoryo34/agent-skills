@@ -1,0 +1,23 @@
+{
+  "skill_name": "project-setup",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "新しく作った TypeScript のリポジトリ（pnpm + vitest、まだ AGENTS.md とかは何もない）に、Claude Code と Codex 両方で開発できるようにエージェント環境をセットアップして。ブランチルールと報告前検証ルールも入れてほしい",
+      "expected_output": "AGENTS.md（Commands/Routing表/Verification含む）、CLAUDE.md（@AGENTS.md import形式）、.claude/rules/ にverification-before-report.md と branch.md、.codex/rules symlink が作成され、symlink 解決が検証されている。実コマンド名（pnpm test 等）が反映されている",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "このプロジェクト、AGENTS.md と CLAUDE.md を手で二重管理してて中身がズレてきてるんだよね。あと .codex/rules を参照してる記述があるのにディレクトリが存在しない。整理してくれる？",
+      "expected_output": "両ファイルの diff による乖離検出、AGENTS.md への統合提案（無断上書きせず diff 提示）、CLAUDE.md の @AGENTS.md import 化、壊れ参照の修復（.claude/rules への symlink 作成）が行われる",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "python の API プロジェクト（uv + pytest）に .claude をセットアップしといて。ルールは最小限でいい",
+      "expected_output": "最小構成（AGENTS.md + CLAUDE.md import + 選択された最小ルール）が生成され、pytest/uv のコマンドが反映されている。過剰なルール・ドキュメントを生成していない",
+      "files": []
+    }
+  ]
+}
