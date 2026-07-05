@@ -109,6 +109,32 @@ Claude Code 固有の指示が必要になったらこの下に追記する。�
 CLAUDE.local.md
 ```
 
+## シークレットスキャン（gitleaks）
+
+lefthook があるプロジェクト（`lefthook.yml` に追記）:
+
+```yaml
+pre-commit:
+  commands:
+    gitleaks:
+      run: gitleaks git --pre-commit --staged --redact -v
+```
+
+hook マネージャが無いプロジェクト（`.git/hooks/pre-commit` を作成して `chmod +x`）:
+
+```bash
+#!/bin/sh
+exec gitleaks git --pre-commit --staged --redact -v
+```
+
+初回フルスキャン（履歴込み）と疑陽性の登録:
+
+```bash
+gitleaks git --redact          # コミット履歴込み
+gitleaks dir --redact          # 未コミットのワークツリーのみ
+# 疑陽性は出力される Fingerprint を .gitleaksignore に1行ずつ追記
+```
+
 ## Codex 連携 symlink
 
 ```bash

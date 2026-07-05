@@ -51,6 +51,7 @@ AskUserQuestion で以下を確認する（検出結果から自明な項目は�
    - `verification-before-report` — 報告前にビルド・テスト・動作確認を自走する規律
    - `branch` — ブランチ運用（常設ブランチ、命名、hotfix の扱い）
    - `investigation` — バグ調査の初動手順（症状把握 → 空間 → 時系列）
+   - `secrets-scan` — gitleaks による pre-commit シークレットスキャン（**推奨・既定でオン**。外したい場合のみ選択解除）
 3. **既存乖離の扱い**（Phase 1 で乖離検出時のみ）: 新しい方へ統合 / 手動レビュー用に diff 提示のみ
 
 ## Phase 3: 生成
@@ -91,11 +92,20 @@ Claude Code 固有の指示（サブエージェント運用、スキル指定�
 
 `.claude/settings.local.json`, `CLAUDE.local.md` が ignore されているか確認し、なければ追記を提案する。
 
+### 3-6. シークレットスキャン（secrets-scan 選択時）
+
+理由: git remote URL に埋め込まれた PAT がエージェントのセッションログ経由で百回以上複製された実事故がある。コミット前の自動検出が最後の砦になる。
+
+- `gitleaks` が未インストールなら導入する（macOS: `brew install gitleaks`）
+- lefthook 等の hook マネージャが既にあればその pre-commit に、無ければ `.git/hooks/pre-commit` に `gitleaks git --pre-commit --staged --redact -v` を追加する（`references/templates.md` 参照）
+- 疑陽性は `.gitleaksignore` に個別指紋で登録して管理する（ルール全体の無効化はしない）
+
 ## Phase 4: 検証と報告
 
 1. 作成した symlink が解決することを確認する（`ls -L`）
 2. AGENTS.md / CLAUDE.md 内の全参照先が実在することを確認する
 3. 生成・追記した全ファイルを通しで読み、矛盾監査を行う: 優先順位が不明なルールの衝突、同一主題の重複定義、グローバル設定（`~/.claude/`, `~/.codex/`）と項目が被る記述を検出し、解消してから完了とする
+4. secrets-scan を導入した場合は `gitleaks git --redact`（コミット履歴込み）で初回フルスキャンを実行し、検出 0 を確認する。検出があればユーザーに報告して該当クレデンシャルのローテーションを促す（履歴からの除去は別作業として提案する）
 3. 生成・変更したファイル一覧と、「今後の運用」を報告する:
    - ルールを足すときは `.claude/rules/` に置けば Claude / Codex 両方に効く
    - ドキュメントを書いたら AGENTS.md の Routing 表に行を足す
