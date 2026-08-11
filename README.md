@@ -17,6 +17,7 @@ This repository is a skills inventory for AI agents. It publishes one plugin pac
 | [tech-selection-table](./tech-selection-table/) | 技術選定・サービス比較のための転置型 CSV 比較表を作成（公式サイト調査 + 費用/API/スマホ対応 + 追加観点） |
 | [ontology](./ontology/) | コードベースの知識グラフ（エンティティ + 型付き関係 + 制約）を `.claude/ontology/` に構築し、CLAUDE.md 注入で以降のセッションでも自動維持 |
 | [project-setup](./project-setup/) | プロジェクトに AI エージェント作業環境（AGENTS.md 正本 + CLAUDE.md import + .claude/rules + Codex symlink 連携 + 必読導線）を対話的にセットアップ。既存構成の乖離・壊れ参照も検出・修復 |
+| [cloudflare-os-ops](./cloudflare-os-ops/) | デプロイ済み Cloudflare OS インスタンスの運用プレイブック（gatekeeper 後付けデプロイ・service binding 規約・AI プロバイダー追加・secrets 規律・配線検証スクリプト・トラブルシュート） |
 
 ## Agents
 
