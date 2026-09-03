@@ -1,6 +1,6 @@
 {
   "name": "agent-skills",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A local Codex plugin exposing the shared agent-skills inventory.",
   "author": {
     "name": "ryoryo34",
