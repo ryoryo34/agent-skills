@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "A skills inventory for AI agents. This marketplace aggregates multiple Agent Skills for evaluation-driven development, conversation analysis, and more.",
-    "version": "1.5.1"
+    "version": "1.6.0"
   },
   "plugins": [
     {

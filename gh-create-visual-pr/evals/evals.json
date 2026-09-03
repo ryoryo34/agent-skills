@@ -1,0 +1,35 @@
+{
+  "skill_name": "gh-create-visual-pr",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "この React の設定画面修正をコミットして、Desktop と Mobile のスクショ付きで PR を作って。どちらも保存成功状態が分かるようにしてほしい",
+      "expected_output": "リポジトリ規約と差分を確認し、テスト・ビルド後にアプリを実際に起動する。Desktop と Mobile で保存操作まで行い、成功状態を目視確認したスクリーンショットを本文の該当位置へ配置する。gh pr create --attach を使用し、作成後に user-attachments URLへの置換とローカルパス不在を検証してPR URLを報告する。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "ボタンの余白を直した。変更前と変更後を並べて見られる PR を作成して",
+      "expected_output": "現在の作業ツリーを切り替えたり未コミット変更を破棄したりせず、安全にbase版を起動できる場合のみ同一viewport・同一データのBeforeを取得する。Afterと並べたPR本文を作り、Before取得が安全でない場合はAfterのみとして理由を明記する。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "このブランチにはもうPRがあるので、最新のモーダル画面を撮ってPRに反映して",
+      "expected_output": "head branchの既存PRを特定し、重複PRを作らない。モーダルを実際に開いて状態を確認し、既存テンプレートと本文を保ちながら gh pr edit --attach で更新する。更新後に添付URLと本文を再検証する。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "スクショ付きでPRを作って。ローカルのghは少し古いかもしれない",
+      "expected_output": "gh version、gh pr create --helpの--attach、認証、push権限を外部変更前に確認する。v2.99.0未満または--attach非対応ならPRを作成せず、必要な更新手順を報告する。ブラウザのコメント欄を使う旧アップロード方式へ自動フォールバックしない。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "管理画面の顧客詳細をスクショして、既存のPRテンプレートを使ってPRを出して",
+      "expected_output": "既存PRテンプレートの構造と必須項目を維持する。実顧客の個人情報や認証情報を含む画面はアップロードせず、安全なfixtureやテストデータで撮り直す。安全な証跡を用意できなければPR作成前に停止して理由を報告する。",
+      "files": []
+    }
+  ]
+}
