@@ -23,6 +23,10 @@
 | ![変更前の画面と状態](LOCAL_BEFORE_PATH) | ![変更後の画面と状態](LOCAL_AFTER_PATH) |
 -->
 
+<!-- 動画の場合は画像や表を次へ置き換え、参照だけを段落内の唯一の内容にする
+![](LOCAL_VIDEO_PATH)
+-->
+
 <!-- visual-evidence:end -->
 
 ## 検証
