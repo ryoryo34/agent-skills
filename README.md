@@ -11,6 +11,7 @@ This repository is a skills inventory for AI agents. It publishes one plugin pac
 | [code-review](./code-review/) | 6-perspective multi-agent code review with confidence scoring and context-adaptive NFR checks |
 | [research](./research/) | Source-quality-guaranteed research with reliability tiers and verification |
 | [generalize-and-apply](./generalize-and-apply/) | 具体例・調査結果・競合パターンから共通原則を抽象化し、プロダクト/設計/意思決定へ再具体化する |
+| [ui-design](./ui-design/) | デジタル庁・Apple HIG・Material Design 3を用途に合わせて選び、ダッシュボード・社内アプリ・モバイルなどのUIを設計・実装する |
 | [gh-create-visual-pr](./gh-create-visual-pr/) | ローカルでUIを動作確認し、GitHub CLIの`--attach`でスクリーンショット・動画付きPRを作成・更新する |
 | [claude-github-setup](./claude-github-setup/) | Claude Code Action を使った GitHub 自動化セットアップ |
 | [domain-model](./domain-model/) | DDD ベースの対話的ドメインモデル作成（言語ゲーム理論 + データ破壊駆動） |
@@ -44,7 +45,8 @@ agent-skills/
 ├── ontology/
 ├── project-setup/
 ├── research/
-└── tech-selection-table/
+├── tech-selection-table/
+└── ui-design/
 ```
 
 ## Installation
